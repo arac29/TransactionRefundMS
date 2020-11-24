@@ -1,5 +1,4 @@
 package TransactionRefundMS.service;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -7,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-//import org.apache.log4j.Logger;
+
+import TransactionRefundMS.DAO.*;
+import org.apache.log4j.Logger;
 
 import TransactionRefundMS.util.ConnectionUtil;
 
@@ -18,7 +19,10 @@ public class AuthServiceImpl implements AuthService{
 	private PreparedStatement prepSt;
 
 	private ConnectionUtil connUtil = new ConnectionUtil();
-
+	
+	
+	private static Logger log = Logger.getRootLogger();
+	
 	public void setConnUtil(ConnectionUtil connUtil) {
 		this.connUtil = connUtil;
 	}
@@ -29,12 +33,17 @@ public class AuthServiceImpl implements AuthService{
 
 	private Map<String, String> tokenRepo = new HashMap<>();
 	
-	// ADD THE LOGIN DAO??? where the login function is
+	EmployeeDAO userDao = new EmployeeDAOPostgres();
 	
 	@Override
 	public boolean authenticatedUser(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
+		if (userDao.signIn(username, password)) {
+			log.info("auth service pass");
+			return true;
+		} else {
+			log.info("  ahc false");
+			return false;
+		}
 	}
 
 	@Override
