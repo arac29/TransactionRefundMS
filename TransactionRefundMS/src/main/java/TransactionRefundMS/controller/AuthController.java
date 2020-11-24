@@ -12,9 +12,9 @@ public class AuthController {
 		
 		String password =ctx.formParam("password");
 		
-		boolean authenticated= auth.authenticatedUser(username,password);
+		int authenticated= auth.authenticatedUser(username,password);
 		
-		if (authenticated) {
+		if (authenticated !=0) {
 			//ctx.status(200);
 			ctx.cookieStore("security", auth.createToken(username));
 			
@@ -24,6 +24,7 @@ public class AuthController {
 			//ctx.status(401);
 			ctx.redirect("index.html?error=failed-login");
 		}
+		
 	}
 	
 	public void checkUser(Context ctx) {

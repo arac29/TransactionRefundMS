@@ -7,9 +7,11 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-import TransactionRefundMS.DAO.*;
 import org.apache.log4j.Logger;
 
+import TransactionRefundMS.DAO.EmployeeDAO;
+import TransactionRefundMS.Postgres.EmployeeDAOPostgres;
+import TransactionRefundMS.pojos.Employee;
 import TransactionRefundMS.util.ConnectionUtil;
 
 public class AuthServiceImpl implements AuthService{
@@ -33,17 +35,19 @@ public class AuthServiceImpl implements AuthService{
 
 	private Map<String, String> tokenRepo = new HashMap<>();
 	
-	EmployeeDAO userDao = new EmployeeDAOPostgres();
-	
+	EmployeeDAO emplDao = new EmployeeDAOPostgres();
+	static Employee emp = new Employee();
 	@Override
-	public boolean authenticatedUser(String username, String password) {
-		if (userDao.signIn(username, password)) {
-			log.info("auth service pass");
-			return true;
-		} else {
-			log.info("  ahc false");
-			return false;
-		}
+	public int authenticatedUser(String username, String password) {
+		
+		int user_id=emplDao.signIn(username, password);
+		log.info("auth service pass");
+			
+			
+			
+			
+		return user_id;
+		
 	}
 
 	@Override

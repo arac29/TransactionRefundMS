@@ -1,5 +1,7 @@
 package TransactionRefundMS.DAO;
 
 public interface EmployeeDAO {
-	public boolean signIn(String username, String password);
+	public int signIn(String username, String password);
+	
+	
 }	

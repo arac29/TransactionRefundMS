@@ -1,10 +1,12 @@
-package TransactionRefundMS.DAO;
+package TransactionRefundMS.Postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import TransactionRefundMS.DAO.*;
 import TransactionRefundMS.pojos.*;
 
 import org.apache.log4j.Logger;
@@ -25,7 +27,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO {
 	Employee emp= new Employee();
 
 	@Override
-	public boolean signIn(String username, String password) {
+	public int signIn(String username, String password) {
 		int rows=0;
 		
 		String sql="select * from login where username=? and password=? ;";
@@ -48,7 +50,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO {
 
 				
 				log.info(" Postgres dao authenticated " );
-				return true;
+				return employee_id;
 				
 			}
 			//rows=prepSt.executeUpdate();
@@ -58,7 +60,7 @@ public class EmployeeDAOPostgres implements EmployeeDAO {
 			
 		}
 		log.info(" Postgres dao ----- Failed to authenticate " + username );
-		return false;
+		return 0;
 	}
 
 	

@@ -1,5 +1,5 @@
 package TransactionRefundMS.pojos;
 
-public class Reimbusement {
+public class Reimbursement {
 
 }
