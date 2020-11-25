@@ -1,12 +1,9 @@
 package TransactionRefundMS.pojos;
 
 public class Employee {
-	private int employee_id;
-	
+	private int employeeId;
+	private String title;
 	private int boss_id;
-	
-	private int employeeId; 
-	private String title; 
 
 	private String firstName;
 	private String lastName;
@@ -24,12 +21,29 @@ public class Employee {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public int getEmployee_id() {
-		return employee_id;
+	
+
+	public Employee(int employeeId, String title, int boss_id, String firstName, String lastName, String dateBirth,
+			String phoneNumber, String email, String address, String city, String state, String country,
+			String postalCode) {
+		super();
+		this.employeeId = employeeId;
+		this.title = title;
+		this.boss_id = boss_id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dateBirth = dateBirth;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.country = country;
+		this.postalCode = postalCode;
 	}
-	public void setEmployee_id(int employee_id) {
-		this.employee_id = employee_id;
-	}
+
+
+
 	public int getBoss_id() {
 		return boss_id;
 	}
@@ -111,7 +125,7 @@ public class Employee {
 	
 	@Override
 	public String toString() {
-		return "Employee [employee_id=" + employee_id + ", boss_id=" + boss_id + ", employeeId=" + employeeId
+		return "Employee [employee_id=" + ", boss_id=" + boss_id + ", employeeId=" + employeeId
 				+ ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName + ", dateBirth="
 				+ dateBirth + ", phoneNumber=" + phoneNumber + ", email=" + email + ", address=" + address + ", city="
 				+ city + ", state=" + state + ", country=" + country + ", postalCode=" + postalCode + "]";
@@ -127,7 +141,7 @@ public class Employee {
 		result = prime * result + ((dateBirth == null) ? 0 : dateBirth.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + employeeId;
-		result = prime * result + employee_id;
+
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
@@ -173,8 +187,6 @@ public class Employee {
 		} else if (!email.equals(other.email))
 			return false;
 		if (employeeId != other.employeeId)
-			return false;
-		if (employee_id != other.employee_id)
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)

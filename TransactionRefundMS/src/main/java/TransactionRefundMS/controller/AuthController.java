@@ -16,12 +16,25 @@ public class AuthController {
 		
 		if (authenticated !=0) {
 			//ctx.status(200);
-			ctx.cookieStore("security", auth.createToken(username));
+			ctx.cookieStore("security", auth.createToken(authenticated));
 			
-			//ctx.html("loged in");
-			//ctx.redirect("view-guests-http.html");
-		} else {
-			//ctx.status(401);
+			if(authenticated <=100) {
+				ctx.redirect("employeeDashboard.html");
+			}
+			if(authenticated >=200 && authenticated <300) {
+				ctx.redirect("bencoDashboard.html");
+			}
+			if(authenticated >= 300 && authenticated <400) {
+				ctx.redirect("deheadDashboard.html");
+			}
+			if(authenticated >=400) {
+				ctx.redirect("directSupDashboard.html");
+			}			
+//			ctx.req.getRequestDispatcher("/readAllUsers").forward(ctx.req, ctx.res);
+			
+		} 
+		
+		else {
 			ctx.redirect("index.html?error=failed-login");
 		}
 		

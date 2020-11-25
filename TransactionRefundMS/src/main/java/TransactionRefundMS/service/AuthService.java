@@ -4,9 +4,9 @@ public interface AuthService {
 	
 	public int authenticatedUser(String username, String password);
 	
-	public String createToken(String username);
+	public String createToken(int employee_id);
 	
-	public String validateToken(String username);
+	public String validateToken(String token);
 	
 	
 }

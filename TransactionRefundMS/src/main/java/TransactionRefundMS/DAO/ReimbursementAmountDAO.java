@@ -6,4 +6,8 @@ public interface ReimbursementAmountDAO {
 	public void createReimbursementAmount(ReimbursementAmount reimbursementAmount);
 	
 	public ReimbursementAmount readReimbursementAmount(int reimbursementAmountId);
+
+	public int deleteReimbursementAmount(int reimbursementAmountId);
+
+	public int updateReimbursementAmount(int reimbursementAmountId, ReimbursementAmount reimbursementAmount);
 }

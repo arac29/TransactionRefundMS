@@ -10,4 +10,8 @@ public interface EventDAO {
 	public Event readEvent(int eventId);
 	
 	public List<Event> readAllEvents();
+
+	public int deleteEvent(int eventId);
+
+	public int updateEvent(int eventId, Event event);
 }

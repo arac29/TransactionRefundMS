@@ -42,19 +42,18 @@ public class AuthServiceImpl implements AuthService{
 		
 		int user_id=emplDao.signIn(username, password);
 		log.info("auth service pass");
-			
-			
-			
-			
+
 		return user_id;
 		
 	}
 
 	@Override
-	public String createToken(String username) {
-		String token = simpleHash(username);
+	public String createToken(int employee_id) {
+		
+		String id=String.valueOf(employee_id);
+		String token = simpleHash(id);
 
-		tokenRepo.put(token, username);
+		tokenRepo.put(token, id);
 
 		return token;
 	}
@@ -64,7 +63,7 @@ public class AuthServiceImpl implements AuthService{
 		return tokenRepo.get(token);
 	}
 	
-	private String simpleHash(String username) {
+	private String simpleHash(String id) {
 		
 		String hash = null;
 		
@@ -75,7 +74,7 @@ public class AuthServiceImpl implements AuthService{
 			md = MessageDigest.getInstance("SHA-512");
 			md.update(salt);
 			
-			byte[] bytes = md.digest(username.getBytes());
+			byte[] bytes = md.digest(id.getBytes());
 
 			StringBuilder sb = new StringBuilder();
 			
