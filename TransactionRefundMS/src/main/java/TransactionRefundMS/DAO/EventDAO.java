@@ -5,7 +5,7 @@ import java.util.List;
 import TransactionRefundMS.pojos.Event;
 
 public interface EventDAO {
-	public void createEvent(Event event);
+	public int createEvent(Event event);
 	
 	public Event readEvent(int eventId);
 	

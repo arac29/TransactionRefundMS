@@ -26,11 +26,12 @@ public class EventDAOPostgres implements EventDAO{
 	public void setConnUtil(ConnectionUtil connUtil) {
 		this.connUtil = connUtil;
 	}
+	
 	@Override
-	public void createEvent(Event event) {
+	public int createEvent(Event event) {
 		
-		String sql = "insert into event (event_type_id, name, description, start_date, end_date, total_hours_on_event, location,"
-				+ "grading_format_event, grading_format_id, grade_id)" + "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String sql = "insert into event (event_type_id, name, description, start_date, end_date, location,"
+				+ " grading_format_id)" + "values(?, ?, ?, ?, ?, ?, ?);";
 
 		try (Connection conn = connUtil.createConnection()) {
 			stmt = conn.prepareStatement(sql);
@@ -38,22 +39,39 @@ public class EventDAOPostgres implements EventDAO{
 			stmt.setInt(1, event.getEventTypeId());
 			stmt.setString(2, event.getName());
 			stmt.setString(3, event.getDescription());
-			stmt.setDate(4, Date.valueOf(event.getStartDate()));
-			stmt.setDate(5, Date.valueOf(event.getEndDate()));
-			stmt.setTime(6, Time.valueOf(event.getHoursDedicatedEvent()));
-			stmt.setString(7, event.getLocation());
-			stmt.setString(8, event.getGradingFormatEvent());
-			stmt.setInt(9, event.getGradingFormatId());
-			stmt.setInt(10, event.getGradeId());
-
+			stmt.setString(4, event.getStartDate());
+			stmt.setString(5,event.getEndDate());
+			stmt.setString(6, event.getLocation());
+			stmt.setInt(7, event.getGradingFormatId());
 			stmt.executeUpdate();
 
 			log.info("Controller creating event");
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+			log.info("error  dao posgres event");
+		}
+		
+		String sqli = "select * from event where name = '" + event.getName() + "';";
+		try (Connection conn = connUtil.createConnection()) {
+
+			stmt = conn.prepareStatement(sqli);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+
+				int eventId = rs.getInt("event_id");
+
+				event.setEventId(eventId);
+
+			}
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return event.getEventId();
+
 	}
 
 	@Override
@@ -80,7 +98,6 @@ public class EventDAOPostgres implements EventDAO{
 				String endDate = rs.getString("end_date");
 				String hoursDedicatedEvent = rs.getString("total_hours_on_event");
 				String location = rs.getString("location");
-				String gradingFormatEvent = rs.getString("grading_format_event");
 				int gradingFormatId = rs.getInt("grading_format_id");
 				int gradeId = rs.getInt("grade_id");
 
@@ -92,7 +109,6 @@ public class EventDAOPostgres implements EventDAO{
 				event.setEndDate(endDate);
 				event.setHoursDedicatedEvent(hoursDedicatedEvent);
 				event.setLocation(location);
-				event.setGradingFormatEvent(gradingFormatEvent);
 				event.setGradingFormatId(gradingFormatId);
 				event.setGradeId(gradeId);
 
@@ -130,7 +146,7 @@ public class EventDAOPostgres implements EventDAO{
 				String endDate = rs.getString("end_date");
 				String hoursDedicatedEvent = rs.getString("total_hours_on_event");
 				String location = rs.getString("location");
-				String gradingFormatEvent = rs.getString("grading_format_event");
+	
 				int gradingFormatId = rs.getInt("grading_format_id");
 				int gradeId = rs.getInt("grade_id");
 
@@ -142,7 +158,7 @@ public class EventDAOPostgres implements EventDAO{
 				event.setEndDate(endDate);
 				event.setHoursDedicatedEvent(hoursDedicatedEvent);
 				event.setLocation(location);
-				event.setGradingFormatEvent(gradingFormatEvent);
+
 				event.setGradingFormatId(gradingFormatId);
 				event.setGradeId(gradeId);
 
@@ -161,7 +177,7 @@ public class EventDAOPostgres implements EventDAO{
 
 		String sql = "update event"
 				+ "set event_type_id = ?, name = ?, description = ?, start_date = ?, end_date = ?, total_hours_on_event = ?, location = ?,"
-				+ "grading_format_event = ?, grading_format_id = ?, grade_id = ?" 
+				+ "grading_format_id = ?, grade_id = ?" 
 				+ "where event_id = ?";
 
 		int rows = 0;
@@ -176,10 +192,9 @@ public class EventDAOPostgres implements EventDAO{
 			stmt.setDate(5, Date.valueOf(event.getEndDate()));
 			stmt.setTime(6, Time.valueOf(event.getHoursDedicatedEvent()));
 			stmt.setString(7, event.getLocation());
-			stmt.setString(8, event.getGradingFormatEvent());
-			stmt.setInt(9, event.getGradingFormatId());
-			stmt.setInt(10, event.getGradeId());
-			stmt.setInt(11, event.getEventId());
+			stmt.setInt(8, event.getGradingFormatId());
+			stmt.setInt(9, event.getGradeId());
+			stmt.setInt(10, event.getEventId());
 
 			rows = stmt.executeUpdate();
 

@@ -17,18 +17,18 @@ public class ServerDriver {
 		
 		
 		app.get("/testing", ctx -> ctx.html("Welcome"));
-		
 		app.get("/", ctx -> ctx.redirect("index.html"));
+		app.post("/employee", ctx -> ctx.redirect("employeeDashboard.html"));
+		
+		/**  AUTHORIZATION, AUTHENTICATION **/
 		app.post("/signIn",  ctx -> authController.signIn(ctx));
 		app.get("/auth", ctx -> authController.checkUser(ctx));
 		
-		
-		
+		/**  REIMBURSEMENT  **/
+		app.post("/submitForm", ctx -> reimController.submitReimbursementForm(ctx));
 		app.get("/readReimbursementStatus", ctx -> reimController.checkStatus(ctx));
 		
 		
-		
-		//app.post("/")
 	}
 //	
 //	public void submitForm(Context ctx) {

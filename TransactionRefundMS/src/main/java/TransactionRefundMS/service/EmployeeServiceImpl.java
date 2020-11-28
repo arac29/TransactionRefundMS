@@ -18,20 +18,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	public Employee readEmployee(int employeeId) {
-		log.info("Employee Service --> Read Employee by ID");
+		log.info("Employee Service - Read Employee by ID");
 		return employeeDao.readEmployee(employeeId);
 	}
 
 
 	@Override
 	public List<Employee> readAllEmployees() {
-		log.info("Employee Service --> Read All Employees");
+		log.info("Employee Service - Read All Employees");
 		return employeeDao.readAllEmployees();
 	}
 
 	@Override
 	public int updateEmployee(int employeeId, Employee employee) {
-		log.info("Employee Service --> update employees");
+		log.info("Employee Service - update employees");
 		return employeeDao.updateEmployee(employeeId, employee);
 	}
 }

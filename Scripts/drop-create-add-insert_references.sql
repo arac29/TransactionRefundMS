@@ -29,12 +29,13 @@ CREATE TABLE "login" (
     "password" varchar(100)
 );
 CREATE INDEX "PK.FK" ON  "login" ("employee_id");
+
+
 CREATE TABLE "employee" (
 	"employee_id" int default nextval ('seqPK_employee') not null,
   	"title" varchar(50),
   	"reports_to" int4,
   	"first_name" varchar(40),
-  	
   	"last_name" varchar(40),
   	"date_birth" date,
   	"phone_number" varchar(24),
@@ -46,6 +47,7 @@ CREATE TABLE "employee" (
   	"postal_code" varchar(10),
   	PRIMARY KEY ("employee_id")
 );
+
 CREATE TABLE "reimbursement" (
 	"reimbursement_id" int default nextval ('seqPK_reimbursement') not null,
 	"employee_id" int4 not null,
@@ -62,18 +64,21 @@ CREATE TABLE "reimbursement" (
 	"upload_file_id" int4,
 	PRIMARY KEY ("reimbursement_id")
 );
+
 CREATE TABLE "upload_file" (
 	"upload_file_id" serial,
-	"reimbursement_id" int4,
+	"fileName" varchar(150),
 	"content" bytea,
 	PRIMARY KEY ("upload_file_id")
 );
+
 CREATE TABLE "reimbursement_status" -- Reference Table
 (
 	"reimbursement_status_id" int4 not null,
 	"status" varchar(250),
 	PRIMARY KEY ("reimbursement_status_id")
 );
+
 CREATE TABLE "reimbursement_amount" (
 	"reimbursement_amount_id" serial not null,
 	"employee_id" int4 not null,
@@ -82,6 +87,7 @@ CREATE TABLE "reimbursement_amount" (
 	"available_amount" numeric(6,2),
 	PRIMARY KEY ("reimbursement_amount_id")
 );
+
 CREATE TABLE "event" (
 	"event_id" int default nextval ('seqPK_event') not null,
 	"event_type_id" int4 not null,
@@ -91,11 +97,11 @@ CREATE TABLE "event" (
 	"end_date" date,
 	"total_hours_on_event" time,
 	"location" varchar(100),
-	"grading_format_event" varchar(50),
 	"grading_format_id" int4,
 	"grade_id" int4,
 	PRIMARY KEY ("event_id")
 );
+
 CREATE TABLE "event_type" --- Reference Table
 (
 	"event_type_id" int4 not null, 
@@ -103,12 +109,14 @@ CREATE TABLE "event_type" --- Reference Table
 	"event_type_percentage" numeric(3,2),
 	PRIMARY KEY ("event_type_id")	
 );
+
 CREATE TABLE "grading_format_company" -- Reference TABLE
 (
 	"grading_format_id" int4 not null,
 	"grading_format" varchar(100), 
 	PRIMARY KEY ("grading_format_id")
 );
+
 CREATE TABLE "grade" -- Reference Table
 (
 	"grade_id" int4 not null, 
@@ -164,23 +172,16 @@ INSERT INTO reimbursement_status (reimbursement_status_id, status) VALUES (7,'De
 /*****************************
 *Add Dummy Information Tables*
 *****************************/
-insert into login (employee_id, username, password) values (1, 'jeffreenickson', 'helloworld');
-insert into login (employee_id, username, password) values (2, 'carolinamelendez', 'helloworld2');
-insert into employee (title, reports_to, first_name, last_name, date_birth, 
-phone_number, email, address, city, state, country, postal_code) 
-values ('Head Departement', null, 'Jeffree', 'Nickson', '1955-01-19', '959-585-5236', 'jeffreenickson@coorp.com', '157 Street Cliffort', 'New York', 
-'New York', 'US', '07087');
-insert into employee (title, reports_to, first_name, last_name, date_birth, 
-phone_number, email, address, city, state, country, postal_code) 
-values ('Regular', 1, 'Caroline', 'Hernandez', '1992-05-01', '852-963-1478', 'carolinamelendez@coorp.com', '187 Street Cliffort', 'New York', 
-'New York', 'US', '07085');
-insert into "event" (event_type_id, name, description, start_date, end_date, total_hours_on_event, location,  grading_format_event, 
-grading_format_id, grade_id) 
-values (4, 'JavaScript Certification', 'Classes and examn for JS certification', '2020-08-27', '2020-12-10', '10:00:00', 'International JavaScript Institute',
-		'Pass/Fail', 3, 1);
+insert into event (event_type_id,name,description,start_date,end_date,total_hours_on_event, location, grading_format_id, grade_id) values (1, 'Masters Data Science', '4 credits for a Data Science course for Masters Degree',
+'2020-12-20','2021-03-29', null,'Texas University',3,1);
+
+-- after adding even, add reimbursement
 insert into reimbursement (employee_id, event_id, date_submition, employee_cancel, justification, amount_requested, 
-benco_approval_date, dirsup_approval_date, dephead_approval_date, reimbursement_status_id, notes, upload_file_id) 
-values (2, 1, '2020-09-10', false, 'Learn more about JavaScript', 500.00, '2020-09-13', '2020-09-20', '2020-09-30', 
+dirsup_approval_date, dephead_approval_date, benco_approval_date, reimbursement_status_id, notes, upload_file_id) 
+values (200, 1, '2020-09-10', false, 'Learn more about JavaScript', 500.00, '2020-09-13', '2020-09-20', '2020-09-30', 
 2, 'Waiting for grade to be awarded', null);
 insert into reimbursement_amount (employee_id, awarded_amount, total_amount, available_amount) 
-values (2, 0.0, 1000.00, 1000.00);
+values (200, 0.0, 1000.00, 1000.00);
+
+
+
