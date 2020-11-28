@@ -235,5 +235,61 @@ public class EventDAOPostgres implements EventDAO{
 
 	}
 
+	@Override
+	public List<Event> readEventById(int employee_id) {
+		List<Event> eventList = new ArrayList();
+
+		String sql = "select r.employee_id, e.event_id, e.event_type_id, e.\"name\", e.description, e.start_date, e.end_date, e.\"location\", e.grading_format_id, e.grade_id "
+				+ "from reimbursement r "
+				+ "join \"event\" e "
+				+ "on r.event_id = e.event_id "
+				+ "where employee_id = ?;";
+
+
+		try (Connection conn = connUtil.createConnection()) {
+
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,employee_id);
+
+			ResultSet rs = stmt.executeQuery();
+
+			log.info("Controller read all events by employee");
+
+			while (rs.next()) {
+
+				Event event = new Event();
+
+				int eventId = rs.getInt("event_id");
+				int eventTypeId = rs.getInt("event_type_id");
+				String name = rs.getString("name");
+				String description = rs.getString("description");
+				String startDate = rs.getString("start_date");
+				String endDate = rs.getString("end_date");
+				String location = rs.getString("location");
+	
+				int gradingFormatId = rs.getInt("grading_format_id");
+				int gradeId = rs.getInt("grade_id");
+
+				event.setEventId(eventId);
+				event.setEventTypeId(eventTypeId);
+				event.setName(name);
+				event.setDescription(description);
+				event.setStartDate(startDate);
+				event.setEndDate(endDate);
+				event.setLocation(location);
+
+				event.setGradingFormatId(gradingFormatId);
+				event.setGradeId(gradeId);
+
+				eventList.add(event);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return eventList;
+	}
+
 
 }

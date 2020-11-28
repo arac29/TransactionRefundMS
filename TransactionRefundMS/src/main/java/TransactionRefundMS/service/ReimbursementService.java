@@ -1,5 +1,12 @@
 package TransactionRefundMS.service;
-import TransactionRefundMS.pojos.*;
+import java.util.List;
+
+import TransactionRefundMS.pojos.Event;
+import TransactionRefundMS.pojos.EventType;
+import TransactionRefundMS.pojos.Grade;
+import TransactionRefundMS.pojos.GradingFormat;
+import TransactionRefundMS.pojos.Reimbursement;
+import TransactionRefundMS.pojos.ReimbursementStatus;
 
 
 public interface ReimbursementService {
@@ -12,9 +19,13 @@ public interface ReimbursementService {
 	
 	public ReimbursementStatus readReimbursementStatus(int reimbursementStatusId);
 	
+	public List<Reimbursement> readReimbursementById(int employee_id); //add
+	
 	public int creatEvent(Event event);
 	
 	public Event readEvent(int eventId);
+	
+	public List<Event> readEventById(int employee_id); //add
 	
 	public Event updateEvent(int eventId, Event event);
 	

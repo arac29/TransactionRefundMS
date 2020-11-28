@@ -43,8 +43,6 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 			stmt.setInt(1, reimbursement.getEmployeeId());
 			stmt.setInt(2, reimbursement.getEventId());
 			
-			
-			
 			stmt.setDate(3,  Date.valueOf(date.format(formatter)));
 			stmt.setDouble(4, reimbursement.getAmountRequested());
 			stmt.executeUpdate();
@@ -116,7 +114,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 
 		List<Reimbursement> reimbursementList = new ArrayList();
 
-		String sql = "select * from event";
+		String sql = "select * from reimbursement";
 
 		try (Connection conn = connUtil.createConnection()) {
 
@@ -232,5 +230,66 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 
 		return rowsToDelete;
 
+	}
+
+	@Override
+	public List<Reimbursement> readReimbursementById(int employee_id) {
+		
+		String sql = "select  * from reimbursement where employee_id = ?;";
+		
+		List<Reimbursement> reimbursementList = new ArrayList();
+		
+		try (Connection conn = connUtil.createConnection()) {
+
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, employee_id);
+
+			ResultSet rs = stmt.executeQuery();
+
+			log.info("Dao read all event reimbursement");
+
+			while (rs.next()) {
+
+				Reimbursement reimbursement = new Reimbursement();
+				
+				int reimbursementId = rs.getInt("reimbursement_id");
+				int employeeId = rs.getInt("employee_id");
+				int eventId = rs.getInt("event_id");
+				String dateSubmition = rs.getString("date_submition");
+				Boolean employeeCancelation = rs.getBoolean("employee_cancel");
+				String justification = rs.getString("justification");
+				double amountRequested = rs.getDouble("amount_requested");
+				String directorSupervisorApprovalDate = rs.getString("dirsup_approval_date");
+				String departmentHeadApprovalDate = rs.getString("dephead_approval_date");
+				String benCoApprovalDate = rs.getString("benco_approval_date");
+				int reimbursementStatusId = rs.getInt("reimbursement_status_id");
+				String notes = rs.getString("notes");
+				//int updateFileId = rs.getInt("upload_file_id");
+
+				reimbursement.setReimbursementId(reimbursementId);
+				reimbursement.setEmployeeId(employeeId);
+				reimbursement.setEventId(eventId);
+				reimbursement.setDateSubmition(dateSubmition);
+				reimbursement.setEmployeeCancelation(employeeCancelation);
+				reimbursement.setJustification(justification);
+				reimbursement.setAmountRequested(amountRequested);
+				reimbursement.setDirectorSupervisorApprovalDate(directorSupervisorApprovalDate);
+				reimbursement.setDepartmentHeadApprovalDate(departmentHeadApprovalDate);
+				reimbursement.setBenCoApprovalDate(benCoApprovalDate);
+				reimbursement.setReimbursementStatusId(reimbursementStatusId);
+				reimbursement.setNotes(notes);
+				//reimbursement.setUpdateFileId(updateFileId);
+				
+
+				reimbursementList.add(reimbursement);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return reimbursementList;
+
+	
 	}
 }

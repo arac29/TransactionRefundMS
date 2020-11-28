@@ -2,6 +2,8 @@ package TransactionRefundMS.service;
 
 import TransactionRefundMS.pojos.*;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import TransactionRefundMS.DAO.*;
@@ -51,7 +53,12 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 		log.info("F Service -Read Reimbursement Status by Id");
 		return reimbursementStatusDao.readReimbursementStatus(reimbursementStatusId);
 	}
-
+	
+	@Override
+	public List<Reimbursement> readReimbursementById(int employee_id) {
+		log.info(" Service -Read Reimbursement Status by employee");
+		return reimbursementDao.readReimbursementById(employee_id);
+	}
 	@Override
 	public int creatEvent(Event event) {
 		log.info(" Service - Create Event");
@@ -88,5 +95,11 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 	public Grade readGrade(int gradeId) {
 		log.info("Service --Read Grade by Id");
 		return gradeDao.readGrade(gradeId);
+	}
+
+	@Override
+	public List<Event> readEventById(int employee_id) {
+		log.info(" Service -Read Events by employee");
+		return eventDao.readEventById(employee_id);
 	}
 }

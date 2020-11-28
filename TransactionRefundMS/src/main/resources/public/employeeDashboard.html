@@ -27,13 +27,36 @@
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn" href="#">NEW REQUEST</a>
+              <a class="nav-link btn" href="http://localhost:9094/logout">logout</a>
             </li>
           </ul>
           
         </div>
       </nav>
     <!-- Include in form sumbitted -->
+
+    <div class="alert alert-success" role="alert">
+      You have submitted a a request successfully. Check your requests here <a onclick="getRequestById()" class="alert-link">here</a>.
+    </div>
+    <div class="container" > 
+      <div class="card" style="width: 75%;">
+        <div class="card-body">
+          <h5 class="card-title">Instructions</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Reimbursement Application</h6>
+          <p class="card-text">Elegible employees can submit a new Reimbursement Form, Check Application Status and Submit extra information if necessary. </p>
+          <ul>
+            <li>Up to $ 1000 per year. </li>
+            <li>Approval process takes approximately 2 weeks after event completition. </li>
+            <li>Approval/Denial is determined on grade/presentation submission.</li>
+            <li>Multiple applications per year allowed.</li>
+            <li>Have documents handy before filling up the form. </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    
     <div class="container mb-2 p-3">
     <button onclick="redirect_form()" type="button" class="btn btn-warning">New Reimbursement Form</button>
     <button type="button" class="btn btn-primary" id="status">Check Application Status</button>
@@ -60,6 +83,12 @@
         </form>
 
     </div>
+  
+    <div class="container mb-2 p-3" id="reimbursement-table">
+      	
+
+    </div>
+    
     
  </body>
   </html>
