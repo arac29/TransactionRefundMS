@@ -23,7 +23,7 @@ public class AuthController {
 		
 		int authenticated= auth.authenticatedUser(username,password);
 		
-		validate(authenticated, ctx);
+		validates(authenticated, ctx);
 		
 	}
 	
@@ -31,7 +31,7 @@ public class AuthController {
 		ctx.html(auth.validateToken(ctx.cookieStore("security")));
 	}
 	
-	public void validate(int authenticated, Context ctx) {
+	public void validates(int authenticated, Context ctx) {
 		
 		if (authenticated !=0) {
 			//ctx.status(200);

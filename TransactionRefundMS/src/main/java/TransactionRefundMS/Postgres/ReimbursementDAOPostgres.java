@@ -292,4 +292,95 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 
 	
 	}
+	@Override
+	public List<Reimbursement> readAllReimbsByReportTo(int reportsTo) {
+
+		List<Reimbursement> reimbursementList = new ArrayList();
+
+		String sql = "select r.reimbursement_id, r.employee_id, r.event_id, r.date_submition, r.employee_cancel, r.justification, "
+				+ "r.amount_requested, r.dirsup_approval_date, r.dephead_approval_date, r.benco_approval_date, r.reimbursement_status_id, "
+				+ "r.notes, r.upload_file_id "
+				+ "from reimbursement r "
+				+ "inner join employee e "
+				+ "on r.employee_id = e.employee_id "
+				+ "where reports_to = ?;";
+
+		try (Connection conn = connUtil.createConnection()) {
+
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, reportsTo);
+
+			ResultSet rs = stmt.executeQuery();
+
+			log.info("Dao read all event reimbursement");
+
+			while (rs.next()) {
+
+				Reimbursement reimbursement = new Reimbursement();
+
+				int reimbursementId = rs.getInt("reimbursement_id");
+				int employeeId = rs.getInt("employee_id");
+				int eventId = rs.getInt("event_id");
+				String dateSubmition = rs.getString("date_submition");
+				Boolean employeeCancelation = rs.getBoolean("employee_cancel");
+				String justification = rs.getString("justification");
+				double amountRequested = rs.getDouble("amount_requested");
+				String directorSupervisorApprovalDate = rs.getString("dirsup_approval_date");
+				String departmentHeadApprovalDate = rs.getString("dephead_approval_date");
+				String benCoApprovalDate = rs.getString("benco_approval_date");
+				int reimbursementStatusId = rs.getInt("reimbursement_status_id");
+				String notes = rs.getString("notes");
+				int updateFileId = rs.getInt("upload_file_id");
+
+				reimbursement.setReimbursementId(reimbursementId);
+				reimbursement.setEmployeeId(employeeId);
+				reimbursement.setEventId(eventId);
+				reimbursement.setDateSubmition(dateSubmition);
+				reimbursement.setEmployeeCancelation(employeeCancelation);
+				reimbursement.setJustification(justification);
+				reimbursement.setAmountRequested(amountRequested);
+				reimbursement.setDirectorSupervisorApprovalDate(directorSupervisorApprovalDate);
+				reimbursement.setDepartmentHeadApprovalDate(departmentHeadApprovalDate);
+				reimbursement.setBenCoApprovalDate(benCoApprovalDate);
+				reimbursement.setReimbursementStatusId(reimbursementStatusId);
+				reimbursement.setNotes(notes);
+				reimbursement.setUpdateFileId(updateFileId);
+
+				reimbursementList.add(reimbursement);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return reimbursementList;
+	}
+	// QUE PASOO??? te esccho QUE 
+	@Override
+	public int updateReimbursementDirSupDate(int reimbursementId, Reimbursement reimbursement) {
+
+		String sql = "update reimbursement " 
+				+ "set dirsup_approval_date = ?, notes = ? "
+				+ "where reimbursement_id = ?";
+
+		int rows = 0;
+
+		try (Connection conn = connUtil.createConnection()) {
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, reimbursement.getDirectorSupervisorApprovalDate());
+			stmt.setString(2, reimbursement.getNotes());
+			stmt.setInt(3, reimbursementId);
+
+			rows = stmt.executeUpdate();
+
+			log.info("Reimbursementid dao updateReimbursementDirSupDate  = " + reimbursementId);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rows;
+	}
+
 }

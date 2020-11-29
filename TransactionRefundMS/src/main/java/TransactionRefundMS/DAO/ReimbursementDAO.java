@@ -14,6 +14,10 @@ public interface ReimbursementDAO {
 	
 	public List<Reimbursement> readReimbursementById(int employee_id);
 	
+	public List<Reimbursement> readAllReimbsByReportTo(int reportsTo);
+	
+	public int updateReimbursementDirSupDate(int reimbursementId, Reimbursement reimbursement);
+	
 	public int updateReimbursement(int reimbursementid, Reimbursement reimbursement);
 	
 	public int deleteReimbursement(int reimbursementId);

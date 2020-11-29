@@ -28,7 +28,7 @@
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn" href="#">NEW REQUEST</a>
+              <a class="nav-link btn" href="http://localhost:9094/logout">Log Out</a>
             </li>
           </ul>
           
@@ -39,33 +39,20 @@
     Direct Supervisor
     <div class="container mb-2 p-3">
     <button onclick="redirect_form()" type="button" class="btn btn-warning">New Reimbursement Form</button>
-    <button type="button" class="btn btn-primary" id="status">Check Application Status</button>
+    <button onclick="getReimbReportsTo()" type="button" class="btn btn-primary" id="status">Review Requests</button>
+    <button id="info" type="button" class="btn btn-secondary" >Submit Information</button>
     <button id="info" type="button" class="btn btn-info" >Submit Information</button>
     </div>
-
-    check all requests. 
+    
     request more info
     deny/approve
 
     <div class="container mb-2 p-3" id="check-status">
-
-     
     </div>
   <div class="container mb-2 p-3" id="submit-info"   >
 
-      <div class="form-group">
-
-        <form action="" method="POST">
-
-        <label for="exampleFormControlFile1">Optional: attachments</label>
-        <input type="file" class="form-control-file" id="exampleFormControlFile1">
-      </div>
-
-
-
-        <button type="submit" class="btn btn-dark">Submit</button>
-        </form>
-
+    </div>
+    <div class="container mb-2 p-3" id="reimbursement-table">
     </div>
     
  </body>

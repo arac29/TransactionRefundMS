@@ -5,7 +5,7 @@ import TransactionRefundMS.pojos.ReimbursementAmount;
 public interface ReimbursementAmountDAO {
 	public void createReimbursementAmount(ReimbursementAmount reimbursementAmount);
 	
-	public ReimbursementAmount readReimbursementAmount(int reimbursementAmountId);
+	public ReimbursementAmount readReimbursementAmount(int employeeId);
 
 	public int deleteReimbursementAmount(int reimbursementAmountId);
 

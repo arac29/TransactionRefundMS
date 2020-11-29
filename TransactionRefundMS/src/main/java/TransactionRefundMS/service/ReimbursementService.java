@@ -21,6 +21,10 @@ public interface ReimbursementService {
 	
 	public List<Reimbursement> readReimbursementById(int employee_id); //add
 	
+	public List<Reimbursement> readReimbursementByReportTo(int reportsTo);
+	
+	public int updateReimbursementDirSupDate(int reimbursementId, Reimbursement reimbursement);
+	
 	public int creatEvent(Event event);
 	
 	public Event readEvent(int eventId);

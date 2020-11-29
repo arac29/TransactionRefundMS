@@ -33,17 +33,21 @@ public class ServerDriver {
 		
 		/**  REIMBURSEMENT  **/
 		app.before("/submitForm", ctx -> {
-		    
+		    //check balance
 		});
-		
 		app.post("/submitForm", ctx -> reimController.submitReimbursementForm(ctx));
 		//app.get("/newRequestForm", ctx -> reimController.checkBalance(ctx));
 		app.get("/newRequest", ctx -> ctx.redirect("form.html"));
 		
+		
+		/*  --------------- Reimbursement ------------------ */
 		app.get("/readReimbursementStatus", ctx -> reimController.checkStatus(ctx));
 		app.get("/readReimbursements", ctx -> reimController.getReimbursements(ctx));
+		app.get("/reimbursementsReportsTo", ctx -> reimController.readAllReimbsByReportTo(ctx));
 
+		app.post("/updateReimbursementDirSupDate", ctx -> reimController.updateReimbursementDirSupDate(ctx)); 
 		
+		/*  --------------- EVENTS ------------------ */
 		app.get("/readEvents", ctx -> reimController.getEvents(ctx));
 	}
 

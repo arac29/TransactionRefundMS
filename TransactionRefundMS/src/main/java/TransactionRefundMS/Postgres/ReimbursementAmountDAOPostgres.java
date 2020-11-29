@@ -45,8 +45,8 @@ public class ReimbursementAmountDAOPostgres implements ReimbursementAmountDAO{
 	}
 
 	@Override
-	public ReimbursementAmount readReimbursementAmount(int reimbursementAmountId) {
-		String sql = "select * from reimbursement_amount where reimbursement_amount_id = " + reimbursementAmountId;
+	public ReimbursementAmount readReimbursementAmount(int employeeId) {
+		String sql = "select * from reimbursement_amount where reimbursement_amount_id = " + employeeId;
 
 		ReimbursementAmount reimbursementAmount = new ReimbursementAmount();
 
@@ -56,17 +56,17 @@ public class ReimbursementAmountDAOPostgres implements ReimbursementAmountDAO{
 
 			ResultSet rs = stmt.executeQuery();
 
-			log.info("Controller read reimbursement amount by id = " + reimbursementAmountId);
+			log.info("Controller read reimbursement amount by id = " + employeeId);
 
 			while (rs.next()) {
 
-				reimbursementAmountId = rs.getInt("reimbursement_amount_id");
-				int employeeId = rs.getInt("employee_id");
+				int reimbursementAmountId = rs.getInt("reimbursement_amount_id");
+				//int employeeId = rs.getInt("employee_id");
 				double awardedAmount = rs.getDouble("awarded_amount");
 				double totalAmount = rs.getDouble("total_amount");
 				double availableAmount = rs.getDouble("available_amount");
 
-				reimbursementAmount.setReimbursementAmountId(reimbursementAmountId);
+				reimbursementAmount.setReimbursementAmountId(employeeId);
 				reimbursementAmount.setEmployeeId(employeeId);
 				reimbursementAmount.setAwardedAmount(awardedAmount);
 				reimbursementAmount.setTotalAmount(totalAmount);

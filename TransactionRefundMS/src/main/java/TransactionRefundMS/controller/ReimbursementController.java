@@ -71,6 +71,8 @@ public class ReimbursementController {
 	public void getReimbursements(Context ctx) {
 		int id=ctx.cookieStore("id");
 		List<Reimbursement> reimList = reimbursementService.readReimbursementById(id);
+		
+		
 		ctx.json(reimList);
 	}
 	
@@ -100,6 +102,29 @@ public class ReimbursementController {
 	public boolean checkBalance(Context ctx) {
 		
 		return false;
+	}
+	
+	public void readAllReimbsByReportTo(Context ctx) {
+		int id=ctx.cookieStore("id");
+		List<Reimbursement> reimList = reimbursementService.readReimbursementByReportTo(id);
+		ctx.json(reimList);
+	}
+	
+	public void updateReimbursementDirSupDate(Context ctx) {
+		
+		log.info("Form Controller --> updateReimbursementDirSupDate ");
+		
+		int reimbursementId = Integer.parseInt(ctx.formParam("reimbursementId"));
+		
+		String directorSupervisorApprovalDate = ctx.formParam("directorSupervisorApprovalDate");
+		
+		String notes = ctx.formParam("notes");
+		
+		Reimbursement reimbursement = new Reimbursement(directorSupervisorApprovalDate, null, notes);
+		
+		reimbursementService.updateReimbursementDirSupDate(reimbursementId, reimbursement);
+		
+		ctx.html(Integer.toString(reimbursement.getReimbursementId()));
 	}
 	
 	

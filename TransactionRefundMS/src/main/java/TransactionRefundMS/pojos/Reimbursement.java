@@ -38,15 +38,16 @@ public class Reimbursement {
 		this.notes = notes;
 		this.updateFileId = updateFileId;
 	}
-
-
-	public Reimbursement() {
+	
+	public Reimbursement(int employeeId, int eventId, String justification, double amountRequested) {
 		super();
-		// TODO Auto-generated constructor stub
+		this.employeeId = employeeId;
+		this.eventId = eventId;
+		this.justification = justification;
+		this.amountRequested = amountRequested;
 	}
-
-
-
+	
+	
 
 	public Reimbursement(int employeeId, int eventId, double amountRequested) {
 		super();
@@ -54,6 +55,35 @@ public class Reimbursement {
 		this.eventId = eventId;
 		this.amountRequested = amountRequested;
 	}
+
+	public Reimbursement(String directorSupervisorApprovalDate, String departmentHeadApprovalDate, String notes) {
+		super();
+		this.directorSupervisorApprovalDate = directorSupervisorApprovalDate;
+		this.departmentHeadApprovalDate = departmentHeadApprovalDate;
+		this.notes = notes;
+	}
+
+
+	public Reimbursement(String benCoApprovalDate, int reimbursementStatusId, String notes) {
+		super();
+		this.benCoApprovalDate = benCoApprovalDate;
+		this.reimbursementStatusId = reimbursementStatusId;
+		this.notes = notes;
+	}
+	
+
+
+	public Reimbursement(double amountRequested) {
+		super();
+		this.amountRequested = amountRequested;
+	}
+
+
+	public Reimbursement() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 
 
 	public static int getReimbursementCount() {

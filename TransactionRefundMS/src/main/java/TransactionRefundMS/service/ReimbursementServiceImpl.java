@@ -102,4 +102,15 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 		log.info(" Service -Read Events by employee");
 		return eventDao.readEventById(employee_id);
 	}
+	@Override
+	public List<Reimbursement> readReimbursementByReportTo(int reportsTo) {
+		log.info("Form Service --> read reimbursement by reports to");
+		return reimbursementDao.readAllReimbsByReportTo(reportsTo);
+	}
+	@Override
+	public int updateReimbursementDirSupDate(int reimbursementId, Reimbursement reimbursement) {
+		log.info("Form Service --> updateReimbursementDirSupDate");
+		return reimbursementDao.updateReimbursementDirSupDate(reimbursementId, reimbursement);
+	}
+
 }
