@@ -44,9 +44,10 @@ public class ServerDriver {
 		app.get("/readReimbursementStatus", ctx -> reimController.checkStatus(ctx));
 		app.get("/readReimbursements", ctx -> reimController.getReimbursements(ctx));
 		app.get("/reimbursementsReportsTo", ctx -> reimController.readAllReimbsByReportTo(ctx));
+		
 
 		app.post("/updateReimbursementDirSupDate", ctx -> reimController.updateReimbursementDirSupDate(ctx)); 
-		
+		app.delete("/cancelReimbursement/:reimbursement_id",  ctx -> reimController.cancelReimbursement(ctx)); 
 		/*  --------------- EVENTS ------------------ */
 		app.get("/readEvents", ctx -> reimController.getEvents(ctx));
 	}

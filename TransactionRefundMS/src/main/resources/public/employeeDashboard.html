@@ -57,15 +57,59 @@
     
     <div class="container mb-2 p-3">
     <button onclick="redirect_form()" type="button" class="btn btn-warning">New Reimbursement Form</button>
-    <button type="button" class="btn btn-primary" id="status">Check Application Status</button>
-    <button id="info" type="button" class="btn btn-info" >Submit Information</button>
+    <!-- <button id="info" type="button" class="btn btn-info" >Submit Information</button> -->
     </div>
 
-    <div class="container mb-2 p-3" id="check-status">
+    <div class="container mb-2 p-3">
+      <table class="table" id="reimbursement-table">
+        <thead class="thead-dark"><tr>
+        <th>
+          Submit Date
+        </th>
+        <th>
+          Amount requested
+        </th>
+        <th>
+          Notes
+        </th>
+        <th>
+          Status
+        </th>
+        <th>
+          Uploads
+        </th>
+        <th>
+          Delete
+        </th>
+        <th>
+          Update
+        </th>
+      </tr>
+      </thead>
+      </table>
+      <table class="table table-striped table-dark" id="event-table">
+        <th>
+          Event Name
+        </th>
+        <th>
+          Date Period
+        </th>
+        <th>
+          Location
+        </th>
+        <th>
+         Grade Assigned
+        </th>
+        <th>
+         Edit
+         </th>
+  
 
-     
+      </table>
+
     </div>
-  <div class="container mb-2 p-3" id="submit-info"   >
+    
+    <div class="container mb-2 p-3" id="submit-info"   >
 
       <div class="form-group">
 
@@ -78,24 +122,6 @@
         </form>
 
     </div>
-  
-    <div class="container mb-2 p-3">
-      <table class="table" id="reimbursement-table">
-        <th>
-          "Submit Date"
-        </th>
-        <th>
-          "Amount requested"
-        </th>
-        <th>
-          "Notes"
-        </th>
-        <th>
-          "Event Name"
-        </th>
-      </table>
-    </div>
-    
     
  </body>
   </html>

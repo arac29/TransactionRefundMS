@@ -47,7 +47,6 @@ CREATE TABLE "employee" (
   	"postal_code" varchar(10),
   	PRIMARY KEY ("employee_id")
 );
-
 CREATE TABLE "reimbursement" (
 	"reimbursement_id" int default nextval ('seqPK_reimbursement') not null,
 	"employee_id" int4 not null,
@@ -56,9 +55,9 @@ CREATE TABLE "reimbursement" (
 	"employee_cancel" boolean,
 	"justification" varchar(280),
 	"amount_requested" numeric(6,2),
-	"dirsup_approval_date" date,
-	"dephead_approval_date" date,
-	"benco_approval_date" date,
+	"dephead_approval_date" varchar(50),
+	"dirsup_approval_date" varchar(50),
+	"benco_approval_date" varchar(50),
 	"reimbursement_status_id" int4,
 	"notes" varchar(350),
 	"upload_file_id" int4,
@@ -93,9 +92,8 @@ CREATE TABLE "event" (
 	"event_type_id" int4 not null,
 	"name" varchar(80),
 	"description" varchar(350),
-	"start_date" date,
-	"end_date" date,
-	"total_hours_on_event" time,
+	"start_date" varchar(50),
+	"end_date" varchar(50),
 	"location" varchar(100),
 	"grading_format_id" int4,
 	"grade_id" int4,
@@ -124,44 +122,62 @@ CREATE TABLE "grade" -- Reference Table
 	"min_percentage" numeric(6,2),
 	"max_percentage" numeric(6,2), 
 	"pass_fail" varchar(4),
+	"reference_grade" varchar(10),
 	PRIMARY KEY ("grade_id")
 );
+
+
 /****************************
-*Add Foriegn Key Constraints*
+Add Foriegn Key Constraints
 ****************************/
 ALTER TABLE reimbursement ADD CONSTRAINT FK_Employee_ID
 FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
+
 ALTER TABLE reimbursement ADD CONSTRAINT FK_Event_ID
 FOREIGN KEY (event_id) REFERENCES "event" (event_id);
+
 ALTER TABLE reimbursement ADD CONSTRAINT FK_UploadFile_ID
-FOREIGN KEY (upload_file_id) REFERENCES upload_file (upload_file_id);
+FOREIGN KEY (upload_file_id) REFERENCES upload_file (upload_file_id)
+on delete cascade;
+
 ALTER TABLE reimbursement ADD CONSTRAINT FK_ReimStatus_ID
 FOREIGN KEY (reimbursement_status_id) REFERENCES reimbursement_status (reimbursement_status_id);
+
 ALTER TABLE "event" ADD CONSTRAINT FK_EventType_ID
 FOREIGN KEY (event_type_id) REFERENCES event_type (event_type_id);
+
 ALTER TABLE "event" ADD CONSTRAINT FK_GradeFormat_ID
 FOREIGN KEY (grading_format_id) REFERENCES grading_format_company (grading_format_id);
+
 ALTER TABLE "event" ADD CONSTRAINT FK_Grad_ID
 FOREIGN KEY (grade_id) REFERENCES grade (grade_id);
+
 ALTER TABLE reimbursement_amount ADD CONSTRAINT FK_Employee_ID
-FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
+FOREIGN KEY (employee_id) REFERENCES employee (employee_id)
+on delete cascade;
+
+
 /*************************
 *Add Reference Table Data*
 *************************/
 INSERT INTO event_type (event_type_id, event_type_names, event_type_percentage) VALUES (1, 'University Course', 0.80);
 INSERT INTO event_type (event_type_id, event_type_names, event_type_percentage) VALUES (2, 'Seminar', 0.60);
-INSERT INTO event_type (event_type_id, event_type_names, event_type_percentage) VALUES (3, 'Certification Preparation Classe', 0.75);
+INSERT INTO event_type (event_type_id, event_type_names, event_type_percentage) VALUES (3, 'Certification Preparation Classes', 0.75);
 INSERT INTO event_type (event_type_id, event_type_names, event_type_percentage) VALUES (4, 'Certification Exam', 1.00);
 INSERT INTO event_type (event_type_id, event_type_names, event_type_percentage) VALUES (5, 'Technical Training', 0.90);
 INSERT INTO event_type (event_type_id, event_type_names, event_type_percentage) VALUES (6, 'Other', 0.30);
+
 INSERT INTO grading_format_company (grading_format_id, grading_format) VALUES (1, 'Letter grading and variations');
 INSERT INTO grading_format_company (grading_format_id, grading_format) VALUES (2, 'Percentage Grading');
 INSERT INTO grading_format_company (grading_format_id, grading_format) VALUES (3, 'Pass/Fail');
-INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail) VALUES (1,'A', 90, 100, 'Pass');
-INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail) VALUES (2,'B', 80,  89, 'Pass');
-INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail) VALUES (3,'C', 70,  79, 'Pass');
-INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail) VALUES (4,'D', 60,  69, 'Fail');
-INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail) VALUES (5,'F',  0,  59, 'Fail');
+INSERT INTO grading_format_company (grading_format_id, grading_format) VALUES (4, 'Reference Grade');
+
+INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail, reference_grade) VALUES (1,'A', 90, 100, 'Pass', 'Excellent');
+INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail, reference_grade) VALUES (2,'B', 80,  89, 'Pass', 'Good');
+INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail, reference_grade) VALUES (3,'C', 70,  79, 'Pass', 'Average');
+INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail, reference_grade) VALUES (4,'D', 60,  69, 'Fail', 'Poor, pass');
+INSERT INTO grade (grade_id, grade_letter, min_percentage, max_percentage, pass_fail, reference_grade) VALUES (5,'F',  0,  59, 'Fail', 'Failure');
+
 INSERT INTO reimbursement_status (reimbursement_status_id, status) VALUES (1,'Pending');
 INSERT INTO reimbursement_status (reimbursement_status_id, status) VALUES (2,'Grade Pending');
 INSERT INTO reimbursement_status (reimbursement_status_id, status) VALUES (3,'Approval Pending');
@@ -172,8 +188,8 @@ INSERT INTO reimbursement_status (reimbursement_status_id, status) VALUES (7,'De
 /*****************************
 *Add Dummy Information Tables*
 *****************************/
-insert into event (event_type_id,name,description,start_date,end_date,total_hours_on_event, location, grading_format_id, grade_id) values (1, 'Masters Data Science', '4 credits for a Data Science course for Masters Degree',
-'2020-12-20','2021-03-29', null,'Texas University',3,1);
+--insert into event (event_type_id,name,description,start_date,end_date,total_hours_on_event, location, grading_format_id, grade_id) values (1, 'Masters Data Science', '4 credits for a Data Science course for Masters Degree',
+--'2020-12-20','2021-03-29', null,'Texas University',3,1);
 
 -- after adding even, add reimbursement
 insert into reimbursement (employee_id, event_id, date_submition, employee_cancel, justification, amount_requested, 

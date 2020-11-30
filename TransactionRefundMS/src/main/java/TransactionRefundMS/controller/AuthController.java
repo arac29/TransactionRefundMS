@@ -37,23 +37,26 @@ public class AuthController {
 			//ctx.status(200);
 			ctx.cookieStore("security", auth.createToken(authenticated));
 			ctx.cookieStore("id",authenticated);
-			if(authenticated <=100) {
+			
+			if(authenticated <200) {
 				ctx.redirect("employeeDashboard.html");
+				log.info("Reg employee log in ");
 			}
 			if(authenticated >=200 && authenticated <300) {
 				//ctx.req.getRequestDispatcher("/employee").forward(ctx.req, ctx.res);
 				ctx.redirect("directSupDashboard.html");
+				log.info("direct sup log in ");
 			}
 			if(authenticated >= 300 && authenticated <400) {
 				ctx.redirect("deheadDashboard.html");
+				log.info(" dep head log in ");
 			}
 			if(authenticated >=400) {
 				ctx.redirect("bencoDashboard.html");
-				log.info("Benco");
+				log.info("Benco log in ");
 			}
 						
 //			ctx.req.getRequestDispatcher("/readAllUsers").forward(ctx.req, ctx.res);
-			
 		} 
 		
 		else {
@@ -65,7 +68,7 @@ public class AuthController {
 		try {
 			int id= Integer.parseInt(auth.validateToken(ctx.cookieStore("security")));
 			
-			if( id <=100) {
+			if( id <200) {
 				ctx.redirect("employeeDashboard.html");
 			}
 			if(id >=200 && id <300) {

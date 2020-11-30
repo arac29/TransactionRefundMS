@@ -67,3 +67,6 @@ function getReimbReportsTo(){
     xhr.open("GET", url, true);
     xhr.send();
 }
+function redirect_form(){
+    window.location.replace("http://localhost:9094/newRequest");
+}
