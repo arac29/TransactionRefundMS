@@ -140,6 +140,12 @@ public class ReimbursementController {
 		
 		ctx.html(Integer.toString(reimbursement.getReimbursementId()));
 	}
+	public void updateNote(Context ctx) {
+		int employeeId=ctx.cookieStore("id");
+		int reimbursementId=Integer.parseInt(ctx.pathParam("reimbursementId"));
+		String note=ctx.formParam("note");
+		reimbursementService.updateNote(reimbursementId,note,employeeId);
+	}
 	
 	
 }

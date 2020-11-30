@@ -40,4 +40,6 @@ public interface ReimbursementService {
 	public GradingFormat readGradingFormat(int gradingFormatId);	
 	
 	public Grade readGrade(int gradeId);
+
+	public void updateNote(int reimbursementId, String note, int employeeId);
 }

@@ -41,6 +41,7 @@ public class ServerDriver {
 		app.post("/updateCost/:reimbursementId", ctx -> reimController.updateCost(ctx)); 
 		app.delete("/cancelReimbursement/:reimbursement_id",  ctx -> reimController.cancelReimbursement(ctx)); 
 					/* ...........dir sup?...........*/
+		app.post("/updateNote/:reimbursementId", ctx -> reimController.updateNote(ctx)); 
 		
 		
 		/*  --------------- EVENTS ------------------ */

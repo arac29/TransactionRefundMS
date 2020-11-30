@@ -120,4 +120,11 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 		
 	}
 
+	@Override
+	public void updateNote(int reimbursementId, String note, int employeeId) {
+		log.info("Form Service --> updateNote");
+		reimbursementDao.updateNote(reimbursementId, note,employeeId);
+		
+	}
+
 }

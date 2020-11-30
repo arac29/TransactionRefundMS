@@ -43,7 +43,7 @@ body {
   border-top-right-radius: 0;
 }
 
-#submit-info,#check-status,#other-requests,#my-requests{
+#submit-info,#check-status{
   visibility: hidden;
   
 }

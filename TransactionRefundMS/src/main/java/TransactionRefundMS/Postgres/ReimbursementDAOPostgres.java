@@ -402,4 +402,36 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 
 	}
 
+	@Override
+	public void updateNote(int reimbursementId, String note,int employeId) {
+		
+		String sql="update reimbursement set notes =?, ";
+		if(employeId >=200 && employeId <300) {
+			
+			sql+=" dirsup_approval_date = ? ";
+		}
+		if(employeId >= 300 && employeId <400) {
+			sql+=" dephead_approval_date = ? ";
+		}
+		if(employeId >=400) {
+			
+			sql+=" benco_approval_date = ? ";
+		}
+		 sql+=" where reimbursement_id=? ;";
+		try (Connection conn = connUtil.createConnection()) {
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, note);
+			stmt.setString(2,date.format(formatter));
+			stmt.setInt(3, reimbursementId);
+
+			stmt.executeUpdate();
+
+			log.info("Reimbursementid dao update note  = " + reimbursementId);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
