@@ -11,6 +11,14 @@ window.onload = function(){
                 reimbursementList.forEach(element => {
                     let table=document.getElementById("other-reimbursement");
                     let tableRow = document.createElement("tr");
+                    
+                    let id_link= document.createElement("a");
+                    let gradelink = document.createTextNode(element.employeeId); 
+                    id_link.appendChild(gradelink);
+                    id_link.href="employee-info.html/"+"?employeeId="+element.employeeId;
+                    id_link.title=element.employeeId;
+
+                    let employeeId = document.createElement("td");
                     let submit_date = document.createElement("td");
                     let amount_requested = document.createElement("td");
                     let notes = document.createElement("td");
@@ -33,6 +41,7 @@ window.onload = function(){
                     reimbursementStatusId.innerHTML=status;
                     uploads.innerHTML=element.updateFileId;
     
+                    employeeId.appendChild(id_link);
                     tableRow.appendChild(submit_date);
                     tableRow.appendChild(amount_requested);
                     tableRow.appendChild(notes);

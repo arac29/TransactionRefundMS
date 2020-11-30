@@ -11,6 +11,7 @@ window.onload = function(){
             reimbursementList.forEach(element => {
                 let table=document.getElementById("other-reimbursement");
                 let tableRow = document.createElement("tr");
+                
                 let employeeId = document.createElement("td");
                 let submit_date = document.createElement("td");
                 let amount_requested = document.createElement("td");
@@ -24,10 +25,11 @@ window.onload = function(){
 
                 //employeeId.innerHTML=element.employeeId;
                 let id_link= document.createElement("a");
-                id_link.innerHTML=element.employeeId;
-                let gradelink=document.createTextNode(element.employeeId);
+                let gradelink = document.createTextNode(element.employeeId); 
                 id_link.appendChild(gradelink);
-                gradelink.href="employee-info.html/"+"?employeeId="+element.employeeId;
+                id_link.href="employee-info.html/"+"?employeeId="+element.employeeId;
+                id_link.title=element.employeeId;
+
                 
 
                 submit_date.innerHTML = element.dateSubmition;
