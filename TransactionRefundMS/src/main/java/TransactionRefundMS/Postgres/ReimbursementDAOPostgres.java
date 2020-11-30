@@ -383,4 +383,23 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 		return rows;
 	}
 
+	@Override
+	public void updateCost(int reimbursementid, double cost) {
+		String sql="update reimbursement set amount_requested =? where reimbursement_id=? ;";
+		try (Connection conn = connUtil.createConnection()) {
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setDouble(1, cost);
+			stmt.setInt(2, reimbursementid);
+
+			stmt.executeUpdate();
+
+			log.info("Reimbursementid dao updatecost  = " + reimbursementid);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

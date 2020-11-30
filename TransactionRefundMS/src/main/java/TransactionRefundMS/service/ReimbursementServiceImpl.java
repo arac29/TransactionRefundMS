@@ -113,4 +113,11 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 		return reimbursementDao.updateReimbursementDirSupDate(reimbursementId, reimbursement);
 	}
 
+	@Override
+	public void updateCost(int reimbursementid, double cost) {
+		log.info("Form Service --> updateReimbursementDirSupDate");
+		reimbursementDao.updateCost(reimbursementid, cost);
+		
+	}
+
 }

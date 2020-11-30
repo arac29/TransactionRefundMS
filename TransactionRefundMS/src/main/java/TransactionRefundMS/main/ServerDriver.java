@@ -15,23 +15,14 @@ public class ServerDriver {
 		Javalin app=Javalin.create( 
 				config -> {config.addStaticFiles("/public"); }).start(9094);
 		
-		app.post("/cookie-storer", ctx -> {
-		    ctx.cookieStore("string", "Hello world!");
-		    ctx.cookieStore("i", 42);
-		});
-		
-		
-		app.get("/testing", ctx -> ctx.html("Welcome"));
 		app.get("/", ctx -> ctx.redirect("index.html"));
-		app.post("/employee", ctx -> ctx.redirect("employeeDashboard.html"));
 		
 		/**  AUTHORIZATION, AUTHENTICATION **/
 		app.post("/signIn",  ctx -> authController.signIn(ctx));
 		app.get("/auth", ctx -> authController.checkUser(ctx));
 		app.post("/forward", ctx -> authController.validate(ctx));
 		app.get("/logout" , ctx -> authController.logout(ctx));
-		
-		/**  REIMBURSEMENT  **/
+		/*  --------------- Form ------------------ */
 		app.before("/submitForm", ctx -> {
 		    //check balance
 		});
@@ -39,19 +30,24 @@ public class ServerDriver {
 		//app.get("/newRequestForm", ctx -> reimController.checkBalance(ctx));
 		app.get("/newRequest", ctx -> ctx.redirect("form.html"));
 		
-		
 		/*  --------------- Reimbursement ------------------ */
+		
+					/* ...........employee?...........*/
 		app.get("/readReimbursementStatus", ctx -> reimController.checkStatus(ctx));
 		app.get("/readReimbursements", ctx -> reimController.getReimbursements(ctx));
 		app.get("/reimbursementsReportsTo", ctx -> reimController.readAllReimbsByReportTo(ctx));
-		
-
-		app.post("/updateReimbursementDirSupDate", ctx -> reimController.updateReimbursementDirSupDate(ctx)); 
+		app.get("/readReimbursementById/:reimbursementId", ctx -> reimController.getReimbursementById(ctx));
+		app.post("/readReimbursementById/:reimbursementId", ctx -> reimController.getReimbursementById(ctx));
+		app.post("/updateCost/:reimbursementId", ctx -> reimController.updateCost(ctx)); 
 		app.delete("/cancelReimbursement/:reimbursement_id",  ctx -> reimController.cancelReimbursement(ctx)); 
+					/* ...........dir sup?...........*/
+		
+		
 		/*  --------------- EVENTS ------------------ */
 		app.get("/readEvents", ctx -> reimController.getEvents(ctx));
+		app.get("/readEventById/:eventId", ctx -> reimController.getEventById(ctx));
+		//apt.get("/updateEvent/:eventId", ctx -> reimController.updateEvent(ctx));
 	}
-
 
 //	public void updateAmount(Context ctx) {
 //		// BENCO authentication?
@@ -63,7 +59,4 @@ public class ServerDriver {
 //		//get id dept head, direct supervisor, benco
 //		//get status
 //		//get notes?
-//		
-//	}
-//	public void additionalInfo
 }

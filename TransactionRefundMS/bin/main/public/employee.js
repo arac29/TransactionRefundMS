@@ -11,7 +11,6 @@ window.onload=function(){
             reimbursementList.forEach(element => {
                 let table=document.getElementById("reimbursement-table");
                 let tableRow = document.createElement("tr");
-                //let employee_id = document.createElement("td");
                 let submit_date = document.createElement("td");
                 let amount_requested = document.createElement("td");
                 let notes = document.createElement("td");
@@ -21,18 +20,6 @@ window.onload=function(){
                 let removeCol = document.createElement("td");
                 let updateCol = document.createElement("td");
 
-                //let new_upload= document.createElement("td");
-                let td=document.createElement("td");
-                let button=document.createElement("button");
-                let textbox=document.createElement("input");
-                textbox.type = "text";
-                
-                button.className="btn btn-info";
-               // button.addEventListener("click",send_info(element.reimbursmentId));
-                //let button_upload=document.createElement("button")
-
-                
-
                 submit_date.innerHTML = element.dateSubmition;
                 amount_requested.innerHTML ="$ "+ element.amountRequested;
                 notes.innerHTML = element.notes;
@@ -40,10 +27,7 @@ window.onload=function(){
                 let status=check_status(element.reimbursementStatusId);
                 reimbursementStatusId.innerHTML=status;
                 uploads.innerHTML=element.updateFileId;
-                //button.innerHTML="SEND";
 
-                // td.appendChild(textbox);
-                // td.appendChild(button);
                 tableRow.appendChild(submit_date);
                 tableRow.appendChild(amount_requested);
                 tableRow.appendChild(notes);
@@ -51,8 +35,6 @@ window.onload=function(){
                 tableRow.appendChild(uploads);
                 tableRow.appendChild(removeCol);
                 tableRow.appendChild(updateCol);
-
-                tableRow.appendChild(td);
                 table.appendChild(tableRow);
 
 
@@ -112,6 +94,8 @@ window.onload=function(){
                 let StartDate = document.createElement("td");
                 let location= document.createElement("td");
                 let gradeId= document.createElement("td");
+                let description=document.createElement("td");
+                let updateCol = document.createElement("td");
 
                 let grade=check_grade(element.gradeId);
                 
@@ -119,13 +103,32 @@ window.onload=function(){
                 StartDate.innerHTML = element.startDate + " - "+ element.endDate;
                 location.innerHTML = element.location;
                 gradeId.innerHTML =grade;
+                description.innerHTML=element.description;
 
                 tableRow.appendChild(nameCol);
                 tableRow.appendChild(StartDate);
                 tableRow.appendChild(location);
                 tableRow.appendChild(gradeId);
-                
+                tableRow.appendChild(updateCol);
+                tableRow.appendChild(description);
                 table.appendChild(tableRow);
+
+                let updateForm = document.createElement("form");
+                updateForm.action = "updateEvent.html";
+                let inputx = document.createElement("input");
+                let inputy = document.createElement("input");
+
+                inputx.type = "hidden";
+                inputx.name = "eventId";
+                inputx.value = element.eventId;
+
+                inputy.type = "submit";
+                inputy.className="btn btn-info";
+                inputy.value = "Update";
+
+                updateForm.appendChild(inputx);
+                updateForm.appendChild(inputy);
+                updateCol.appendChild(updateForm);
            });
         }
     }

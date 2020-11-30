@@ -96,7 +96,6 @@ public class EventDAOPostgres implements EventDAO{
 				String description = rs.getString("description");
 				String startDate = rs.getString("start_date");
 				String endDate = rs.getString("end_date");
-				String hoursDedicatedEvent = rs.getString("total_hours_on_event");
 				String location = rs.getString("location");
 				int gradingFormatId = rs.getInt("grading_format_id");
 				int gradeId = rs.getInt("grade_id");
@@ -107,7 +106,6 @@ public class EventDAOPostgres implements EventDAO{
 				event.setDescription(description);
 				event.setStartDate(startDate);
 				event.setEndDate(endDate);
-				event.setHoursDedicatedEvent(hoursDedicatedEvent);
 				event.setLocation(location);
 				event.setGradingFormatId(gradingFormatId);
 				event.setGradeId(gradeId);

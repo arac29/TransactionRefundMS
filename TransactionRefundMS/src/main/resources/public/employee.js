@@ -58,7 +58,6 @@ window.onload=function(){
                 updateForm.action = "updateReimbursement.html";
                 let inputx = document.createElement("input");
                 let inputy = document.createElement("input");
-                let inputy = document.createElement("input");
 
                 inputx.type = "hidden";
                 inputx.name = "eventId";
@@ -95,6 +94,7 @@ window.onload=function(){
                 let StartDate = document.createElement("td");
                 let location= document.createElement("td");
                 let gradeId= document.createElement("td");
+                let description=document.createElement("td");
                 let updateCol = document.createElement("td");
 
                 let grade=check_grade(element.gradeId);
@@ -103,18 +103,19 @@ window.onload=function(){
                 StartDate.innerHTML = element.startDate + " - "+ element.endDate;
                 location.innerHTML = element.location;
                 gradeId.innerHTML =grade;
+                description.innerHTML=element.description;
 
                 tableRow.appendChild(nameCol);
                 tableRow.appendChild(StartDate);
                 tableRow.appendChild(location);
                 tableRow.appendChild(gradeId);
                 tableRow.appendChild(updateCol);
+                tableRow.appendChild(description);
                 table.appendChild(tableRow);
 
                 let updateForm = document.createElement("form");
                 updateForm.action = "updateEvent.html";
                 let inputx = document.createElement("input");
-                let inputy = document.createElement("input");
                 let inputy = document.createElement("input");
 
                 inputx.type = "hidden";

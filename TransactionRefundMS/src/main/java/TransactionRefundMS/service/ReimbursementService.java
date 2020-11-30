@@ -17,6 +17,8 @@ public interface ReimbursementService {
 	
 	public Reimbursement updateReimbursement(int reimbursementid, Reimbursement reimbursement);
 	
+	public void updateCost(int reimbursementid, double cost);
+	
 	public ReimbursementStatus readReimbursementStatus(int reimbursementStatusId);
 	
 	public List<Reimbursement> readReimbursementById(int employee_id); //add

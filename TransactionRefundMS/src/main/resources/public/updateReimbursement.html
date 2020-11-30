@@ -37,12 +37,12 @@
     <div class="container mb-2 p-3" id="update">
         <div class="form-group">
 
-            <form action="http://localhost:9094/updateCost" method="POST">
+            <form id="updateReimbursement" method="POST">
 
                 <div class="form-group">
                     <label for="cost">Cost</label>
-                    <input name="amountRequested"type="text" class="form-control" placeholder="Cost of Event">
-                  </div>
+                    <input name="cost"type="text" id="cost" class="form-control" placeholder="Cost of Event">
+                </div>
                 
                 
             <button type="submit" class="btn btn-dark">Update Cost</button>
@@ -50,7 +50,7 @@
     
         </div>
 
-    <div class="container mb-2 p-3" id="info">
+    
 
       <div class="form-group">
 
@@ -58,9 +58,10 @@
             <input type="text" name="" placeholder="File Name">
             <label for="exampleFormControlFile1">Optional: attachments</label>
             <input type="file" name="file1" class="form-control-file" id="exampleFormControlFile1">
-        <button type="submit" class="btn btn-dark">Upload</button>
+        <br><button type="submit" class="btn btn-dark">Upload</button>
         </form>
 
+        </div>
     </div>
     
  </body>

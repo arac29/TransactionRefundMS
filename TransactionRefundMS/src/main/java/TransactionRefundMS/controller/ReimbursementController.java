@@ -75,17 +75,31 @@ public class ReimbursementController {
 		
 		ctx.json(reimList);
 	}
+	public void getReimbursementById(Context ctx) {
+		
+		int reimbursementId=Integer.parseInt(ctx.pathParam("reimbursementId"));
+		Reimbursement reimbursement=reimbursementService.readReimbursement(reimbursementId);
+		ctx.json(reimbursement);
+	}
 	
 	public void getEvents(Context ctx) {
 		int id=ctx.cookieStore("id");
 		List<Event> reimList = reimbursementService.readEventById(id);
 		ctx.json(reimList);
 	}
+	public void getEventById(Context ctx) {
+		int eventId=Integer.parseInt(ctx.pathParam("eventId"));
+		Event event=reimbursementService.readEvent(eventId);
+		ctx.json(event);
+	}
 	
-	
-	public void updateAmount(Context ctx) {
-		// BENCO authentication?
-		//
+	public void updateCost(Context ctx) throws ServletException, IOException {
+		int reimbursementId=Integer.parseInt(ctx.pathParam("reimbursementId"));
+		double cost=Double.parseDouble(ctx.formParam("cost"));
+		reimbursementService.updateCost(reimbursementId,cost);
+		//ctx.redirect("employeeDashboard.html");
+		//ctx.req.getRequestDispatcher("../forward").forward(ctx.req, ctx.res);
+		//ctx.req.getRequestDispatcher("/forward").forward(ctx.req, ctx.res);
 	}
 	public void cancelReimbursement(Context ctx) {
 		// regular employee and benco can do this?
