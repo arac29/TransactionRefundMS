@@ -14,7 +14,7 @@ plugins {
 
 jar {
 	manifest {
-		attributes 'Main-Class': 'TRMS.ServerDriver'
+		attributes 'Main-Class': 'TransactionRefundMS.ServerDriver'
 	}
 	
 	from {
