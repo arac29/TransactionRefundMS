@@ -1,7 +1,7 @@
 window.onload = function(){
     /**GET OTHER EMPL REQUESTS */
         let xhr = new XMLHttpRequest();
-        const url = "http://localhost:9094/reimbursementsReportsTo";
+        const url = "http://localhost:9094/readAllReimbursements";
         xhr.onreadystatechange = function () {
             console.log(xhr.readyState);
             if (this.readyState == 4 && this.status == 200){

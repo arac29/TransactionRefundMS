@@ -33,8 +33,8 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 	@Override
 	public void createReimbursement(Reimbursement reimbursement) {
 
-		String sql = "insert into reimbursement (employee_id, event_id, date_submition, amount_requested, ajusted_amount)"
-				+ "values(?, ?, ?, ? ,?);";
+		String sql = "insert into reimbursement (employee_id, event_id, date_submition, amount_requested, adjusted_amount,reimbursement_status_id)"
+				+ "values(?, ?, ?, ? ,?,?);";
 
 		try (Connection conn = connUtil.createConnection()) {
 
@@ -46,6 +46,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 			stmt.setDate(3,  Date.valueOf(date.format(formatter)));
 			stmt.setDouble(4, reimbursement.getAmountRequested());
 			stmt.setDouble(5, reimbursement.getAdjustedAmount());
+			stmt.setInt(6, 1);
 			stmt.executeUpdate();
 
 			log.info("Dao creating reimbursement");

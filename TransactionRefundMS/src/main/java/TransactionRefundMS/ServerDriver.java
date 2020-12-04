@@ -22,25 +22,22 @@ public class ServerDriver {
 		app.get("/auth", ctx -> authController.checkUser(ctx));
 		app.post("/forward", ctx -> authController.validate(ctx));
 		app.get("/logout" , ctx -> authController.logout(ctx));
+		
 		/*  --------------- Form ------------------ */
-		app.before("/submitForm", ctx -> {
-		    //check balance
-		});
 		app.post("/submitForm", ctx -> reimController.submitReimbursementForm(ctx));
-		//app.get("/newRequestForm", ctx -> reimController.checkBalance(ctx));
 		app.get("/newRequest", ctx -> ctx.redirect("form.html"));
 		
 		/*  --------------- Reimbursement ------------------ */
 		
 					/* ...........employee?...........*/
-		app.get("/readReimbursementStatus", ctx -> reimController.checkStatus(ctx));
+		//app.get("/readReimbursementStatus", ctx -> reimController.checkStatus(ctx));
 		app.get("/readReimbursements", ctx -> reimController.getReimbursements(ctx));
 		app.get("/readAllReimbursements", ctx -> reimController.getAllReimbursements(ctx));
 		app.get("/reimbursementsReportsTo", ctx -> reimController.readAllReimbsByReportTo(ctx));
 		app.get("/readReimbursementById/:reimbursementId", ctx -> reimController.getReimbursementById(ctx));
-		app.post("/readReimbursementById/:reimbursementId", ctx -> reimController.getReimbursementById(ctx));
+		//app.post("/readReimbursementById/:reimbursementId", ctx -> reimController.getReimbursementById(ctx));
 		app.post("/updateCost/:reimbursementId", ctx -> reimController.updateCost(ctx)); 
-		app.delete("/cancelReimbursement/:reimbursement_id",  ctx -> reimController.cancelReimbursement(ctx)); 
+		app.delete("/cancelReimbursement/:reimbursementId",  ctx -> reimController.cancelReimbursement(ctx)); 
 					/* ...........dir sup?...........*/
 		app.post("/updateNote/:reimbursementId", ctx -> reimController.updateNote(ctx)); 
 		
@@ -51,14 +48,4 @@ public class ServerDriver {
 		//apt.get("/updateEvent/:eventId", ctx -> reimController.updateEvent(ctx));
 	}
 
-//	public void updateAmount(Context ctx) {
-//		// BENCO authentication?
-//	}
-//	public void cancelReimbursement(Context ctx) {
-//		// regular employee and benco can do this?
-//	}
-//	public void updateStatus(Context ctx) {
-//		//get id dept head, direct supervisor, benco
-//		//get status
-//		//get notes?
 }
