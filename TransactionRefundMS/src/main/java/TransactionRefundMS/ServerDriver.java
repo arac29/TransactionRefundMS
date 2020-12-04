@@ -35,6 +35,7 @@ public class ServerDriver {
 					/* ...........employee?...........*/
 		app.get("/readReimbursementStatus", ctx -> reimController.checkStatus(ctx));
 		app.get("/readReimbursements", ctx -> reimController.getReimbursements(ctx));
+		app.get("/readAllReimbursements", ctx -> reimController.getAllReimbursements(ctx));
 		app.get("/reimbursementsReportsTo", ctx -> reimController.readAllReimbsByReportTo(ctx));
 		app.get("/readReimbursementById/:reimbursementId", ctx -> reimController.getReimbursementById(ctx));
 		app.post("/readReimbursementById/:reimbursementId", ctx -> reimController.getReimbursementById(ctx));

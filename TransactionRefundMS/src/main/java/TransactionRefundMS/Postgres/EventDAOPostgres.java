@@ -154,7 +154,7 @@ public class EventDAOPostgres implements EventDAO{
 				event.setDescription(description);
 				event.setStartDate(startDate);
 				event.setEndDate(endDate);
-				event.setHoursDedicatedEvent(hoursDedicatedEvent);
+				
 				event.setLocation(location);
 
 				event.setGradingFormatId(gradingFormatId);
@@ -168,69 +168,6 @@ public class EventDAOPostgres implements EventDAO{
 			e.printStackTrace();
 		}
 		return eventList;
-	}
-
-	@Override
-	public int updateEvent(int eventId, Event event) {
-
-		String sql = "update event"
-				+ "set event_type_id = ?, name = ?, description = ?, start_date = ?, end_date = ?, total_hours_on_event = ?, location = ?,"
-				+ "grading_format_id = ?, grade_id = ?" 
-				+ "where event_id = ?";
-
-		int rows = 0;
-
-		try (Connection conn = connUtil.createConnection()) {
-			stmt = conn.prepareStatement(sql);
-
-			stmt.setInt(1, event.getEventTypeId());
-			stmt.setString(2, event.getName());
-			stmt.setString(3, event.getDescription());
-			stmt.setDate(4, Date.valueOf(event.getStartDate()));
-			stmt.setDate(5, Date.valueOf(event.getEndDate()));
-			stmt.setTime(6, Time.valueOf(event.getHoursDedicatedEvent()));
-			stmt.setString(7, event.getLocation());
-			stmt.setInt(8, event.getGradingFormatId());
-			stmt.setInt(9, event.getGradeId());
-			stmt.setInt(10, event.getEventId());
-
-			rows = stmt.executeUpdate();
-
-			log.info("Controller updating event by eventId = " + eventId);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return rows;
-	}
-
-	@Override
-	public int deleteEvent(int eventId) {
-		
-		String sql = "delete from event where event_id = ?";
-
-		int rowsToDelete = 0;
-
-		try (Connection conn = connUtil.createConnection()) {
-			stmt = conn.prepareStatement(sql);
-
-			stmt.setInt(1, eventId);
-
-			rowsToDelete = stmt.executeUpdate();
-
-			log.info("Controller deleting event by eventId = " + eventId);
-
-			if (rowsToDelete == 0) {
-				System.out.println("No rows to delete.");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return rowsToDelete;
-
 	}
 
 	@Override
@@ -287,6 +224,12 @@ public class EventDAOPostgres implements EventDAO{
 			e.printStackTrace();
 		}
 		return eventList;
+	}
+
+	@Override
+	public int updateEvent(int eventId, Event event) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

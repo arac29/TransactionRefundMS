@@ -20,9 +20,6 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 	
 	EventDAO eventDao= new EventDAOPostgres();
 	
-	EventTypeDAO eventTypeDao= new EventTypeDAOPostgres();
-	
-	GradingFormatDAO gradingFormatDao= new GradingFormatPostgres();
 	
 	GradeDAO gradeDao= new GradeDAOPostgres();
 	
@@ -42,13 +39,6 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 	}
 
 	@Override
-	public Reimbursement updateReimbursement(int reimbursementid, Reimbursement reimbursement) {
-		log.info("Service --Update Reimbursement by Id");
-		reimbursementDao.updateReimbursement(reimbursementid, reimbursement);
-		return reimbursement;
-	}
-
-	@Override
 	public ReimbursementStatus readReimbursementStatus(int reimbursementStatusId) {
 		log.info("F Service -Read Reimbursement Status by Id");
 		return reimbursementStatusDao.readReimbursementStatus(reimbursementStatusId);
@@ -58,6 +48,11 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 	public List<Reimbursement> readReimbursementById(int employee_id) {
 		log.info(" Service -Read Reimbursement Status by employee");
 		return reimbursementDao.readReimbursementById(employee_id);
+	}
+	@Override
+	public List<Reimbursement> readAllReimbursements() {
+		log.info(" Service -Read Reimbursement Status by employee");
+		return reimbursementDao.readAllReimbursements();
 	}
 	@Override
 	public int creatEvent(Event event) {
@@ -77,18 +72,6 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 		log.info("Service -- Update Event by Id");
 		eventDao.updateEvent(eventId, event);
 		return event;
-	}
-
-	@Override
-	public EventType readEventType(int eventTypeId) {
-		log.info(" Service --Read Event Type by Id");
-		return eventTypeDao.readEventType(eventTypeId);
-	}
-
-	@Override
-	public GradingFormat readGradingFormat(int gradingFormatId) {
-		log.info(" Service -Read Grading Format Company by Id");
-		return gradingFormatDao.readGradingFormat(gradingFormatId);
 	}
 
 	@Override

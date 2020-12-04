@@ -18,9 +18,9 @@ public interface ReimbursementDAO {
 	
 	public int updateReimbursementDirSupDate(int reimbursementId, Reimbursement reimbursement);
 	
-	public int updateReimbursement(int reimbursementid, Reimbursement reimbursement);
+	//public int updateReimbursement(int reimbursementid, Reimbursement reimbursement);
 	
-	public int deleteReimbursement(int reimbursementId);
+	//public int deleteReimbursement(int reimbursementId);
 
 	public void updateCost(int reimbursementid, double cost);
 

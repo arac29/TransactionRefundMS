@@ -33,8 +33,8 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 	@Override
 	public void createReimbursement(Reimbursement reimbursement) {
 
-		String sql = "insert into reimbursement (employee_id, event_id, date_submition, amount_requested)"
-				+ "values(?, ?, ?, ?);";
+		String sql = "insert into reimbursement (employee_id, event_id, date_submition, amount_requested, ajusted_amount)"
+				+ "values(?, ?, ?, ? ,?);";
 
 		try (Connection conn = connUtil.createConnection()) {
 
@@ -45,6 +45,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 			
 			stmt.setDate(3,  Date.valueOf(date.format(formatter)));
 			stmt.setDouble(4, reimbursement.getAmountRequested());
+			stmt.setDouble(5, reimbursement.getAdjustedAmount());
 			stmt.executeUpdate();
 
 			log.info("Dao creating reimbursement");
@@ -80,6 +81,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				Boolean employeeCancelation = rs.getBoolean("employee_cancel");
 				String justification = rs.getString("justification");
 				double amountRequested = rs.getDouble("amount_requested");
+				double adjustedAmount = rs.getDouble("adjusted_amount");
 				String directorSupervisorApprovalDate = rs.getString("dirsup_approval_date");
 				String departmentHeadApprovalDate = rs.getString("dephead_approval_date");
 				String benCoApprovalDate = rs.getString("benco_approval_date");
@@ -94,6 +96,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				reimbursement.setEmployeeCancelation(employeeCancelation);
 				reimbursement.setJustification(justification);
 				reimbursement.setAmountRequested(amountRequested);
+				reimbursement.setAdjustedAmount(adjustedAmount);
 				reimbursement.setDirectorSupervisorApprovalDate(directorSupervisorApprovalDate);
 				reimbursement.setDepartmentHeadApprovalDate(departmentHeadApprovalDate);
 				reimbursement.setBenCoApprovalDate(benCoApprovalDate);
@@ -135,6 +138,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				Boolean employeeCancelation = rs.getBoolean("employee_cancel");
 				String justification = rs.getString("justification");
 				double amountRequested = rs.getDouble("amount_requested");
+				double adjustedAmount = rs.getDouble("adjusted_amount");
 				String directorSupervisorApprovalDate = rs.getString("dirsup_approval_date");
 				String departmentHeadApprovalDate = rs.getString("dephead_approval_date");
 				String benCoApprovalDate = rs.getString("benco_approval_date");
@@ -149,6 +153,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				reimbursement.setEmployeeCancelation(employeeCancelation);
 				reimbursement.setJustification(justification);
 				reimbursement.setAmountRequested(amountRequested);
+				reimbursement.setAdjustedAmount(adjustedAmount);
 				reimbursement.setDirectorSupervisorApprovalDate(directorSupervisorApprovalDate);
 				reimbursement.setDepartmentHeadApprovalDate(departmentHeadApprovalDate);
 				reimbursement.setBenCoApprovalDate(benCoApprovalDate);
@@ -164,72 +169,6 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 			e.printStackTrace();
 		}
 		return reimbursementList;
-	}
-
-	@Override
-	public int updateReimbursement(int reimbursementid, Reimbursement reimbursement) {
-
-		String sql = "update reimbursement "
-				+ "set employee_id = ?, event_id = ?, date_submition = ?, employee_cancel = ?, justification = ?, amount_requested =?,"
-				+ "dirsup_approval_date = ?, dephead_approval_date = ?, benco_approval_date = ?, reimbursement_status_id = ?, notes = ?, upload_file_id = ?"
-				+ "where reimbursement_id = ?";
-
-		int rows = 0;
-
-		try (Connection conn = connUtil.createConnection()) {
-			stmt = conn.prepareStatement(sql);
-
-			stmt.setInt(1, reimbursement.getEmployeeId());
-			stmt.setInt(2, reimbursement.getEventId());
-			stmt.setDate(3, Date.valueOf(reimbursement.getDateSubmition()));
-			stmt.setBoolean(4, reimbursement.isEmployeeCancelation());
-			stmt.setString(5, reimbursement.getJustification());
-			stmt.setDouble(6, reimbursement.getAmountRequested());
-			stmt.setDate(7, Date.valueOf(reimbursement.getDirectorSupervisorApprovalDate()));
-			stmt.setDate(8, Date.valueOf(reimbursement.getDepartmentHeadApprovalDate()));
-			stmt.setDate(9, Date.valueOf(reimbursement.getBenCoApprovalDate()));
-			stmt.setInt(10, reimbursement.getReimbursementStatusId());
-			stmt.setString(11, reimbursement.getNotes());
-			stmt.setInt(12, reimbursement.getUpdateFileId());
-			stmt.setInt(13, reimbursement.getReimbursementId());
-
-			rows = stmt.executeUpdate();
-
-			log.info("Dao updating reimbursementid by reimbursementid = " + reimbursementid);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return rows;
-	}
-
-	@Override
-	public int deleteReimbursement(int reimbursementId) {
-
-		String sql = "delete from reimbursement where reimbursement_id = ?";
-
-		int rowsToDelete = 0;
-
-		try (Connection conn = connUtil.createConnection()) {
-			stmt = conn.prepareStatement(sql);
-
-			stmt.setInt(1, reimbursementId);
-
-			rowsToDelete = stmt.executeUpdate();
-
-			log.info("Dao deleting reimbursement by reimbursementId = " + reimbursementId);
-
-			if (rowsToDelete == 0) {
-				System.out.println("No rows to delete.");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return rowsToDelete;
-
 	}
 
 	@Override
@@ -403,16 +342,24 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 	}
 
 	@Override
-	public void updateNote(int reimbursementId, String note,int employeId) {
+	public void updateNote(int reimbursementId, String note,int employeId) { // status_id
+		
+		//if status_id !=0;
 		
 		String sql="update reimbursement set notes =?, ";
+		
+		
+		
 		if(employeId >=200 && employeId <300) {
 			
-			sql+=" dirsup_approval_date = ? ";
+			sql+=" dirsup_approval_date = ? "; 
+			
 		}
 		if(employeId >= 300 && employeId <400) {
 			sql+=" dephead_approval_date = ? ";
+			
 		}
+	
 		if(employeId >=400) {
 			
 			sql+=" benco_approval_date = ? ";

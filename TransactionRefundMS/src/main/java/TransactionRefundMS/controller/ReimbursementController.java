@@ -56,8 +56,10 @@ public class ReimbursementController {
 		/* CREATE A REIMBURSEMENT */
 		
 		double amountRequested = Double.parseDouble(ctx.formParam("amountRequested")); //5
+		
+		double adjustedAmount=calculateAdjustedAmt(amountRequested,eventTypeId);
 
-		Reimbursement reimbursement = new Reimbursement(employeeId, eventId, amountRequested);
+		Reimbursement reimbursement = new Reimbursement(employeeId, eventId, amountRequested,adjustedAmount);
 		
 		log.info("Submitting a new request" + eventId + amountRequested );
 		
@@ -68,9 +70,33 @@ public class ReimbursementController {
 		ctx.req.getRequestDispatcher("/forward").forward(ctx.req, ctx.res);
 	}
 	
+	private double calculateAdjustedAmt(double amountRequested, int eventTypeId) {
+		switch (eventTypeId) {
+		case 1: //university
+			return amountRequested * 0.8;
+		case 2: // seminar
+			return amountRequested * 0.6;
+		case 3: // certification prep
+			return amountRequested * 0.75;
+		case 4: //certification exam
+			return amountRequested * 1.0;
+		case 5: // technical training
+			return amountRequested * 0.9;
+		case 6: // other
+			return amountRequested * 0.3;
+		}
+		return 0;
+	}
 	public void getReimbursements(Context ctx) {
 		int id=ctx.cookieStore("id");
 		List<Reimbursement> reimList = reimbursementService.readReimbursementById(id);
+		
+		
+		ctx.json(reimList);
+	}
+	public void getAllReimbursements(Context ctx) {
+		int id=ctx.cookieStore("id");
+		List<Reimbursement> reimList = reimbursementService.readAllReimbursements();
 		
 		
 		ctx.json(reimList);

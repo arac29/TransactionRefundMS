@@ -10,6 +10,7 @@ public class Reimbursement {
 	private boolean employeeCancelation;
 	private String justification;
 	private double amountRequested;
+	private double adjustedAmount;
 	private String directorSupervisorApprovalDate;
 	private String departmentHeadApprovalDate;
 	private String benCoApprovalDate;
@@ -18,19 +19,21 @@ public class Reimbursement {
 	private int updateFileId;
 	
 	
-	public Reimbursement(int employeeId, int eventId, String dateSubmition,
-			boolean employeeCancelation, String justification, double amountRequested,
+	
+	
+	public Reimbursement(int reimbursementId, int employeeId, int eventId, String dateSubmition,
+			boolean employeeCancelation, String justification, double amountRequested, double adjustedAmount,
 			String directorSupervisorApprovalDate, String departmentHeadApprovalDate, String benCoApprovalDate,
 			int reimbursementStatusId, String notes, int updateFileId) {
 		super();
-		Reimbursement.reimbursementCount++;
-		this.reimbursementId = Reimbursement.reimbursementCount;
+		this.reimbursementId = reimbursementId;
 		this.employeeId = employeeId;
 		this.eventId = eventId;
 		this.dateSubmition = dateSubmition;
 		this.employeeCancelation = employeeCancelation;
 		this.justification = justification;
 		this.amountRequested = amountRequested;
+		this.adjustedAmount = adjustedAmount;
 		this.directorSupervisorApprovalDate = directorSupervisorApprovalDate;
 		this.departmentHeadApprovalDate = departmentHeadApprovalDate;
 		this.benCoApprovalDate = benCoApprovalDate;
@@ -38,7 +41,9 @@ public class Reimbursement {
 		this.notes = notes;
 		this.updateFileId = updateFileId;
 	}
-	
+
+
+
 	public Reimbursement(int employeeId, int eventId, String justification, double amountRequested) {
 		super();
 		this.employeeId = employeeId;
@@ -49,11 +54,12 @@ public class Reimbursement {
 	
 	
 
-	public Reimbursement(int employeeId, int eventId, double amountRequested) {
+	public Reimbursement(int employeeId, int eventId, double amountRequested ,double adjustedAmount) {
 		super();
 		this.employeeId = employeeId;
 		this.eventId = eventId;
 		this.amountRequested = amountRequested;
+		this.adjustedAmount=adjustedAmount;
 	}
 
 	public Reimbursement(String directorSupervisorApprovalDate, String departmentHeadApprovalDate, String notes) {
@@ -84,153 +90,144 @@ public class Reimbursement {
 		// TODO Auto-generated constructor stub
 	}
 
-
-
 	public static int getReimbursementCount() {
 		return reimbursementCount;
 	}
-
 
 	public static void setReimbursementCount(int reimbursementCount) {
 		Reimbursement.reimbursementCount = reimbursementCount;
 	}
 
-
 	public int getReimbursementId() {
 		return reimbursementId;
 	}
-
 
 	public void setReimbursementId(int reimbursementId) {
 		this.reimbursementId = reimbursementId;
 	}
 
-
 	public int getEmployeeId() {
 		return employeeId;
 	}
-
 
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
 
-
 	public int getEventId() {
 		return eventId;
 	}
-
 
 	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
 
-
 	public String getDateSubmition() {
 		return dateSubmition;
 	}
-
 
 	public void setDateSubmition(String dateSubmition) {
 		this.dateSubmition = dateSubmition;
 	}
 
-
 	public boolean isEmployeeCancelation() {
 		return employeeCancelation;
 	}
-
 
 	public void setEmployeeCancelation(boolean employeeCancelation) {
 		this.employeeCancelation = employeeCancelation;
 	}
 
-
 	public String getJustification() {
 		return justification;
 	}
-
 
 	public void setJustification(String justification) {
 		this.justification = justification;
 	}
 
-
 	public double getAmountRequested() {
 		return amountRequested;
 	}
-
 
 	public void setAmountRequested(double amountRequested) {
 		this.amountRequested = amountRequested;
 	}
 
+	public double getAdjustedAmount() {
+		return adjustedAmount;
+	}
+
+	public void setAdjustedAmount(double adjustedAmount) {
+		this.adjustedAmount = adjustedAmount;
+	}
 
 	public String getDirectorSupervisorApprovalDate() {
 		return directorSupervisorApprovalDate;
 	}
 
-
 	public void setDirectorSupervisorApprovalDate(String directorSupervisorApprovalDate) {
 		this.directorSupervisorApprovalDate = directorSupervisorApprovalDate;
 	}
-
 
 	public String getDepartmentHeadApprovalDate() {
 		return departmentHeadApprovalDate;
 	}
 
-
 	public void setDepartmentHeadApprovalDate(String departmentHeadApprovalDate) {
 		this.departmentHeadApprovalDate = departmentHeadApprovalDate;
 	}
-
 
 	public String getBenCoApprovalDate() {
 		return benCoApprovalDate;
 	}
 
-
 	public void setBenCoApprovalDate(String benCoApprovalDate) {
 		this.benCoApprovalDate = benCoApprovalDate;
 	}
-
 
 	public int getReimbursementStatusId() {
 		return reimbursementStatusId;
 	}
 
-
 	public void setReimbursementStatusId(int reimbursementStatusId) {
 		this.reimbursementStatusId = reimbursementStatusId;
 	}
-
 
 	public String getNotes() {
 		return notes;
 	}
 
-
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-
 
 	public int getUpdateFileId() {
 		return updateFileId;
 	}
 
-
 	public void setUpdateFileId(int updateFileId) {
 		this.updateFileId = updateFileId;
 	}
 
+	@Override
+	public String toString() {
+		return "Reimbursement [reimbursementId=" + reimbursementId + ", employeeId=" + employeeId + ", eventId="
+				+ eventId + ", dateSubmition=" + dateSubmition + ", employeeCancelation=" + employeeCancelation
+				+ ", justification=" + justification + ", amountRequested=" + amountRequested + ", adjustedAmount="
+				+ adjustedAmount + ", directorSupervisorApprovalDate=" + directorSupervisorApprovalDate
+				+ ", departmentHeadApprovalDate=" + departmentHeadApprovalDate + ", benCoApprovalDate="
+				+ benCoApprovalDate + ", reimbursementStatusId=" + reimbursementStatusId + ", notes=" + notes
+				+ ", updateFileId=" + updateFileId + "]";
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		long temp;
+		temp = Double.doubleToLongBits(adjustedAmount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(amountRequested);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((benCoApprovalDate == null) ? 0 : benCoApprovalDate.hashCode());
@@ -249,7 +246,6 @@ public class Reimbursement {
 		return result;
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -259,6 +255,8 @@ public class Reimbursement {
 		if (getClass() != obj.getClass())
 			return false;
 		Reimbursement other = (Reimbursement) obj;
+		if (Double.doubleToLongBits(adjustedAmount) != Double.doubleToLongBits(other.adjustedAmount))
+			return false;
 		if (Double.doubleToLongBits(amountRequested) != Double.doubleToLongBits(other.amountRequested))
 			return false;
 		if (benCoApprovalDate == null) {
@@ -307,15 +305,8 @@ public class Reimbursement {
 	}
 
 
-	@Override
-	public String toString() {
-		return "Reimbursement [reimbursementId=" + reimbursementId + ", employeeId=" + employeeId + ", eventId="
-				+ eventId + ", dateSubmition=" + dateSubmition + ", employeeCancelation=" + employeeCancelation
-				+ ", justification=" + justification + ", amountRequested=" + amountRequested
-				+ ", directorSupervisorApprovalDate=" + directorSupervisorApprovalDate + ", departmentHeadApprovalDate="
-				+ departmentHeadApprovalDate + ", benCoApprovalDate=" + benCoApprovalDate + ", reimbursementStatusId="
-				+ reimbursementStatusId + ", notes=" + notes + ", updateFileId=" + updateFileId + "]";
-	}
+	
+	
 	
 	
 }

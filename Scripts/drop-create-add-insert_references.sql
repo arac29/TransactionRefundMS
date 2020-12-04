@@ -2,7 +2,6 @@
 *DROP Database Tables*
 ***********************/
 Drop Table "login";
-Drop table "reimbursement_amount";
 Drop Table "reimbursement";
 Drop Table "reimbursement_status";
 Drop Table "upload_file";
@@ -11,6 +10,7 @@ Drop table "grade";
 Drop Table "event_type";
 Drop Table "grading_format_company";
 Drop Table "employee";
+
 Drop sequence seqPK_employee;
 Drop sequence seqPK_reimbursement;
 Drop sequence seqPK_event;
@@ -54,7 +54,8 @@ CREATE TABLE "reimbursement" (
 	"date_submition" date,
 	"employee_cancel" boolean,
 	"justification" varchar(280),
-	"amount_requested" numeric(6,2),
+	"amount_requested" numeric(6,2), -- original amount
+	"adjusted_amount" numeric(6,2), -- fixed amount
 	"dephead_approval_date" varchar(50),
 	"dirsup_approval_date" varchar(50),
 	"benco_approval_date" varchar(50),
@@ -63,6 +64,7 @@ CREATE TABLE "reimbursement" (
 	"upload_file_id" int4,
 	PRIMARY KEY ("reimbursement_id")
 );
+
 
 CREATE TABLE "upload_file" (
 	"upload_file_id" serial,
@@ -78,14 +80,6 @@ CREATE TABLE "reimbursement_status" -- Reference Table
 	PRIMARY KEY ("reimbursement_status_id")
 );
 
-CREATE TABLE "reimbursement_amount" (
-	"reimbursement_amount_id" serial not null,
-	"employee_id" int4 not null,
-	"awarded_amount" numeric(6,2),
-	"total_amount" numeric(6,2) default 1000.00, 
-	"available_amount" numeric(6,2),
-	PRIMARY KEY ("reimbursement_amount_id")
-);
 
 CREATE TABLE "event" (
 	"event_id" int default nextval ('seqPK_event') not null,
@@ -96,6 +90,7 @@ CREATE TABLE "event" (
 	"end_date" varchar(50),
 	"location" varchar(100),
 	"grading_format_id" int4,
+	"employee_grade" varchar(30),
 	"grade_id" int4,
 	PRIMARY KEY ("event_id")
 );
@@ -132,30 +127,19 @@ Add Foriegn Key Constraints
 ****************************/
 ALTER TABLE reimbursement ADD CONSTRAINT FK_Employee_ID
 FOREIGN KEY (employee_id) REFERENCES employee (employee_id);
-
 ALTER TABLE reimbursement ADD CONSTRAINT FK_Event_ID
 FOREIGN KEY (event_id) REFERENCES "event" (event_id);
-
 ALTER TABLE reimbursement ADD CONSTRAINT FK_UploadFile_ID
 FOREIGN KEY (upload_file_id) REFERENCES upload_file (upload_file_id)
 on delete cascade;
-
 ALTER TABLE reimbursement ADD CONSTRAINT FK_ReimStatus_ID
 FOREIGN KEY (reimbursement_status_id) REFERENCES reimbursement_status (reimbursement_status_id);
-
 ALTER TABLE "event" ADD CONSTRAINT FK_EventType_ID
 FOREIGN KEY (event_type_id) REFERENCES event_type (event_type_id);
-
 ALTER TABLE "event" ADD CONSTRAINT FK_GradeFormat_ID
 FOREIGN KEY (grading_format_id) REFERENCES grading_format_company (grading_format_id);
-
 ALTER TABLE "event" ADD CONSTRAINT FK_Grad_ID
 FOREIGN KEY (grade_id) REFERENCES grade (grade_id);
-
-ALTER TABLE reimbursement_amount ADD CONSTRAINT FK_Employee_ID
-FOREIGN KEY (employee_id) REFERENCES employee (employee_id)
-on delete cascade;
-
 
 /*************************
 *Add Reference Table Data*

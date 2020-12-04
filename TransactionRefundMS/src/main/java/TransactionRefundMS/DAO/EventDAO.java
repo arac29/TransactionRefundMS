@@ -13,7 +13,7 @@ public interface EventDAO {
 	
 	public List<Event> readEventById(int employee_id);
 	
-	public int deleteEvent(int eventId);
+	//public int deleteEvent(int eventId);
 
 	public int updateEvent(int eventId, Event event);
 }

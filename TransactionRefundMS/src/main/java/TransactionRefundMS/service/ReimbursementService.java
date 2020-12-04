@@ -2,7 +2,7 @@ package TransactionRefundMS.service;
 import java.util.List;
 
 import TransactionRefundMS.pojos.Event;
-import TransactionRefundMS.pojos.EventType;
+
 import TransactionRefundMS.pojos.Grade;
 import TransactionRefundMS.pojos.GradingFormat;
 import TransactionRefundMS.pojos.Reimbursement;
@@ -14,8 +14,6 @@ public interface ReimbursementService {
 	public Reimbursement createReimbursement(Reimbursement reimbursement);
 	
 	public Reimbursement readReimbursement(int reimbursementId);
-	
-	public Reimbursement updateReimbursement(int reimbursementid, Reimbursement reimbursement);
 	
 	public void updateCost(int reimbursementid, double cost);
 	
@@ -35,11 +33,13 @@ public interface ReimbursementService {
 	
 	public Event updateEvent(int eventId, Event event);
 	
-	public EventType readEventType(int eventTypeId);
+	//public EventType readEventType(int eventTypeId);
 	
-	public GradingFormat readGradingFormat(int gradingFormatId);	
+	//public GradingFormat readGradingFormat(int gradingFormatId);	
 	
 	public Grade readGrade(int gradeId);
 
 	public void updateNote(int reimbursementId, String note, int employeeId);
+
+	public List<Reimbursement> readAllReimbursements();
 }
