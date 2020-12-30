@@ -25,6 +25,8 @@ public interface ReimbursementDAO {
 	public void updateCost(int reimbursementid, double cost);
 
 	public void updateNote(int reimbursementId, String note, int employeeId);
+
+	public void updateStatus(int reimbursementId, int status);
 	
 	//public void updateGrade(int reimbursementId,)
 	

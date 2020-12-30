@@ -37,50 +37,40 @@
       <div class="container mb-2 p-3" id="update">
         <div class="form-group">
 
-            <form id="change-status" method="POST">
+          <form id="change-status" method="POST">
 
-                <fieldset class="form-group">
-                    <div class="row">
-                      <legend class="col-form-label col-sm-2 pt-0">Grading Format</legend>
-                      <div class="col-sm-10">
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="grade" id="grade" value="1" checked>
-                          <label class="form-check-label" for="gridRadios1">
-                            A	90.00	100.00	Pass	Excellent
-                          </label>
+            <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">Reimbursement Status</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="status" value="4" checked>
+                      <label class="form-check-label" for="gridRadios1">
+                        Awarded
+                      </label>
                     </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="grade" id="grade" value="2">
-                          <label class="form-check-label" for="gridRadios2">
-                            B	80.00	89.00	Pass	Good
-                          </label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="status"  value="7">
+                      <label class="form-check-label" for="gridRadios2">
+                        Denied
+                      </label>
                     </div>
-                        <div class="form-check ">
-                          <input class="form-check-input" type="radio" name="grade" id="grade" value="3" >
-                          <label class="form-check-label" for="gridRadios3">
-                            C	70.00	79.00	Pass	Average
-                          </label>
-                        </div>
-                        <div class="form-check ">
-                            <input class="form-check-input" type="radio" name="grade" id="grade" value="4" >
-                            <label class="form-check-label" for="gridRadios3">
-                            D	60.00	69.00	Fail	Poor, pass
-                            </label>
-                        </div>
-                        <div class="form-check ">
-                            <input class="form-check-input" type="radio" name="grade" id="grade" value="5" >
-                            <label class="form-check-label" for="gridRadios3">
-                            F	0.00	59.00	Fail	Failure
-                            </label>
-                        </div>
-                      </div>
-                    </div>
-                  </fieldset>
-                
-                
-            <button type="submit" class="btn btn-dark">Send</button>
-            </form>
-    
+                  </div>
+                </div>
+              </fieldset>
+              <button type="submit" class="btn btn-dark">Send</button>
+          </form>
+          <script>
+            let parameters = location.search.substring(1).split("?");
+            let param = parameters[0].split("=");
+            let reimbursementId = param[1];
+
+            let form=document.getElementById("change-status");
+            form.action = "http://localhost:9094/updateStatus/" +  reimbursementId;
+          </script>
         </div>
+      </div>
+</body>
+</html>
 
             

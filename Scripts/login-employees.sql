@@ -7,12 +7,13 @@ insert into login (employee_id, username, password) values (105, 'jessica', 'pas
 
 insert into login (employee_id, username, password) values (200, 'eljefe', 'password');
 insert into login (employee_id, username, password) values (201, 'directo2', 'password');
+insert into login (employee_id, username, password) values (202, 'hannah', 'password');
 
-insert into login (employee_id, username, password) values (300, 'dephead1', 'pass10');
-insert into login (employee_id, username, password) values (301, 'dephead1', 'pass10');
+insert into login (employee_id, username, password) values (300, 'head', 'password');
+insert into login (employee_id, username, password) values (301, 'dephead1', 'password');
 
-insert into login (employee_id, username, password) values (400, 'benco1', 'pass1');
-insert into login (employee_id, username, password) values (401, 'benco2', 'pass1');
+insert into login (employee_id, username, password) values (400, 'benco', 'password');
+insert into login (employee_id, username, password) values (401, 'benco2', 'password');
 
 -- ************************** create 8 employees *******************************************
 insert into employee (employee_id,title, reports_to, first_name, last_name, date_birth, 

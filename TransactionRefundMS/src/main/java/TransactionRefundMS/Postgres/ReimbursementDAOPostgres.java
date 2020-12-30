@@ -199,6 +199,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				Boolean employeeCancelation = rs.getBoolean("employee_cancel");
 				String justification = rs.getString("justification");
 				double amountRequested = rs.getDouble("amount_requested");
+				double adjustedAmount = rs.getDouble("adjusted_amount");
 				String directorSupervisorApprovalDate = rs.getString("dirsup_approval_date");
 				String departmentHeadApprovalDate = rs.getString("dephead_approval_date");
 				String benCoApprovalDate = rs.getString("benco_approval_date");
@@ -213,6 +214,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				reimbursement.setEmployeeCancelation(employeeCancelation);
 				reimbursement.setJustification(justification);
 				reimbursement.setAmountRequested(amountRequested);
+				reimbursement.setAdjustedAmount(adjustedAmount);
 				reimbursement.setDirectorSupervisorApprovalDate(directorSupervisorApprovalDate);
 				reimbursement.setDepartmentHeadApprovalDate(departmentHeadApprovalDate);
 				reimbursement.setBenCoApprovalDate(benCoApprovalDate);
@@ -238,7 +240,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 		List<Reimbursement> reimbursementList = new ArrayList();
 
 		String sql = "select r.reimbursement_id, r.employee_id, r.event_id, r.date_submition, r.employee_cancel, r.justification, "
-				+ "r.amount_requested, r.dirsup_approval_date, r.dephead_approval_date, r.benco_approval_date, r.reimbursement_status_id, "
+				+ "r.amount_requested, r.adjusted_amount, r.dirsup_approval_date, r.dephead_approval_date, r.benco_approval_date, r.reimbursement_status_id, "
 				+ "r.notes, r.upload_file_id "
 				+ "from reimbursement r "
 				+ "inner join employee e "
@@ -252,7 +254,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 
 			ResultSet rs = stmt.executeQuery();
 
-			log.info("Dao read all event reimbursement");
+			log.info("Dao read all event reimbursements reports to");
 
 			while (rs.next()) {
 
@@ -265,6 +267,8 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				Boolean employeeCancelation = rs.getBoolean("employee_cancel");
 				String justification = rs.getString("justification");
 				double amountRequested = rs.getDouble("amount_requested");
+				double adjustedAmount = rs.getDouble("adjusted_amount");
+				log.info(adjustedAmount);
 				String directorSupervisorApprovalDate = rs.getString("dirsup_approval_date");
 				String departmentHeadApprovalDate = rs.getString("dephead_approval_date");
 				String benCoApprovalDate = rs.getString("benco_approval_date");
@@ -279,6 +283,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 				reimbursement.setEmployeeCancelation(employeeCancelation);
 				reimbursement.setJustification(justification);
 				reimbursement.setAmountRequested(amountRequested);
+				reimbursement.setAdjustedAmount(adjustedAmount);
 				reimbursement.setDirectorSupervisorApprovalDate(directorSupervisorApprovalDate);
 				reimbursement.setDepartmentHeadApprovalDate(departmentHeadApprovalDate);
 				reimbursement.setBenCoApprovalDate(benCoApprovalDate);
@@ -295,7 +300,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 		}
 		return reimbursementList;
 	}
-	// QUE PASOO??? te esccho QUE 
+
 	@Override
 	public int updateReimbursementDirSupDate(int reimbursementId, Reimbursement reimbursement) {
 
@@ -325,7 +330,7 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 
 	@Override
 	public void updateCost(int reimbursementid, double cost) {
-		String sql="update reimbursement set amount_requested =? where reimbursement_id=? ;";
+		String sql="update reimbursement set adjusted_amount =? where reimbursement_id=? ;";
 		try (Connection conn = connUtil.createConnection()) {
 			stmt = conn.prepareStatement(sql);
 
@@ -380,6 +385,26 @@ public class ReimbursementDAOPostgres implements ReimbursementDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void updateStatus(int reimbursementId, int status) {
+		String sql="update reimbursement set reimbursement_status_id =? where reimbursement_id=? ;";
+		try (Connection conn = connUtil.createConnection()) {
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setInt(1, status);
+			stmt.setInt(2, reimbursementId);
+			
+
+			stmt.executeUpdate();
+
+			log.info("Reimbursementid dao update status = " );
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

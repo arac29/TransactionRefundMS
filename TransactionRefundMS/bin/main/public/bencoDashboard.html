@@ -49,10 +49,14 @@
     
 </div>
     <div class="container mb-2 p-3" id="other-requests">
+      <!--*****************- OTHERS REIBURSEMENTS  -************** -->
       <table id="other-reimbursement">
-        <thead class="thead-dark"><tr>
+        <thead class="thead-dark">
           <th>
             Requestor ID
+          </th>
+          <th>
+            Event Number
           </th>
           <th>
             Submit Date
@@ -63,7 +67,6 @@
           <th>
             Notes
           </th>
-         
           <th>
             Direct Supervisor Approval
           </th>
@@ -74,20 +77,26 @@
             Benco Approval
           </th>
           <th>
-            Status
+            Uploads
           </th>
           <th>
-            Uploads
+            Estimated Reimbursement
+          </th>
+          <th>
+            Current Status
           </th>
           <th>
             Add notes
           </th>
-        </tr>
+          <th>
+            Change Status
+          </th>
+          <th>
+            Confirm $$
+          </th>
         </thead>
       </table>
-
     </div>
-   
     <div class="container mb-2 p-3 " id="my-requests">
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         You can also check your personal requests here.
@@ -95,55 +104,82 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <table id="my-reimbursement" class="table table-striped table-dark">
-      <thead class="thead-dark"><tr>
+              <!--*****************- OTHERS EVENTS  -************** -->
+      <table class="table-striped" id="other-events">
         <th>
-          Submit Date
+        Event Number
         </th>
         <th>
-          Amount requested
+        Event Name
         </th>
         <th>
-          Notes
+        Location
         </th>
         <th>
-          Status
+        Date Period
         </th>
-        <th>
-          Uploads
-        </th>
-        <th>
-          Delete
-        </th>
-        <th>
-          Update
-        </th>
-      </tr>
-      </thead>
-      </table>
-      <table id="event-table" class="table table-striped table-dark">
-        <th>
-          Event Name
-        </th>
-        <th>
-          Date Period
-        </th>
-        <th>
-          Location
-        </th>
-        <th>
-         Grade Assigned
-        </th>
-        <th>
-         Edit
-         </th>
         <th>
         Description
         </th>
-          
-
+        <th>
+        Grade Submitted
+        </th>
+        <th>
+        Grade Assigned
+        </th>
+        <th>
+        SUBMIT GRADE
+        </th>
+      </table>
+      <table id="my-reimbursement" class="table table-striped table-dark">
+        <thead class="thead-dark">
+          <th>
+          Submit Date
+          </th>
+          <th>
+          Notes
+          </th>
+          <th>
+          Amount requested
+          </th>
+          <th>
+          Adjusted
+          </th>
+          <th>
+          Status
+          </th>
+          <th>
+          Uploads
+          </th>
+          <th>
+          Upload File
+          </th>
+        
+        </thead>
+        </table>
+      <table id="event-table" class="table table-striped table-dark">
+        <th>
+          Event Name
+          </th>
+          <th>
+          Location
+          </th>
+          <th>
+          Date Period
+          </th>
+          <th>
+          Description
+          </th>
+          <th>
+          Grade Submitted
+          </th>
+          <th>
+          Grade Assigned
+          </th>
+          <th>
+            SUBMIT GRADE
+          </th>
       </table>
     </div>
-    
- </body>
+  </body>
 </html>

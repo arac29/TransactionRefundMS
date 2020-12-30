@@ -40,12 +40,18 @@ public class ServerDriver {
 		app.delete("/cancelReimbursement/:reimbursementId",  ctx -> reimController.cancelReimbursement(ctx)); 
 					/* ...........dir sup?...........*/
 		app.post("/updateNote/:reimbursementId", ctx -> reimController.updateNote(ctx)); 
+		app.post("/updateStatus/:reimbursementId", ctx -> reimController.updateStatus(ctx)); 
 		
 		
 		/*  --------------- EVENTS ------------------ */
 		app.get("/readEvents", ctx -> reimController.getEvents(ctx));
+		app.get("/readAllEvents", ctx -> reimController.getAllEvents(ctx));
+		app.get("/eventsReportsTo", ctx -> reimController.eventsReportTo(ctx));
 		app.get("/readEventById/:eventId", ctx -> reimController.getEventById(ctx));
 		//apt.get("/updateEvent/:eventId", ctx -> reimController.updateEvent(ctx));
+		app.post("employeeGrade/:eventId",ctx -> reimController.employeeGrade(ctx));
+		app.post("superGrade/:eventId",ctx -> reimController.superGrade(ctx));
+		
 	}
 
 }

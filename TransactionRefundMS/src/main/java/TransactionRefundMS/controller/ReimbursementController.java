@@ -123,7 +123,7 @@ public class ReimbursementController {
 		int reimbursementId=Integer.parseInt(ctx.pathParam("reimbursementId"));
 		double cost=Double.parseDouble(ctx.formParam("cost"));
 		reimbursementService.updateCost(reimbursementId,cost);
-		//ctx.redirect("employeeDashboard.html");
+		//ctx.redirect("localhost:9094/bencoDashboard.html");
 		//ctx.req.getRequestDispatcher("../forward").forward(ctx.req, ctx.res);
 		//ctx.req.getRequestDispatcher("/forward").forward(ctx.req, ctx.res);
 	}
@@ -131,14 +131,11 @@ public class ReimbursementController {
 		// regular employee and benco can do this?
 	}
 	public void updateStatus(Context ctx) {
-		//get id dept head, direct supervisor, benco
-		//get status
-		//get notes?
-		
+		int reimbursementId=Integer.parseInt(ctx.pathParam("reimbursementId"));
+		int status=Integer.parseInt(ctx.formParam("status"));
+		reimbursementService.updateStatus(reimbursementId,status);
 	}
-	public void additionalInfo(Context ctx) {
-		
-	}
+
 	public boolean checkBalance(Context ctx) {
 		
 		return false;
@@ -172,6 +169,26 @@ public class ReimbursementController {
 		String note=ctx.formParam("note");
 		reimbursementService.updateNote(reimbursementId,note,employeeId);
 	}
+	public void employeeGrade(Context ctx) {
+		int eventId=Integer.parseInt(ctx.pathParam("eventId"));
+		String grade=ctx.formParam("grade");
+		reimbursementService.employeeGrade(eventId,grade);
+	}
+	public void getAllEvents(Context ctx) {
+		
+		List<Event> eventList = reimbursementService.readAllEvents();
+		ctx.json(eventList);
+		
+	}
+	public void eventsReportTo(Context ctx) {
+		int employeeId=ctx.cookieStore("id");
+		List<Event> eventList = reimbursementService.eventsReportsTo(employeeId);
+		ctx.json(eventList);
+	}
+	public void superGrade(Context ctx) {
+		int eventId=Integer.parseInt(ctx.pathParam("eventId"));
+		int grade=Integer.parseInt(ctx.formParam("grade"));
+		reimbursementService.superGrade(eventId,grade);
 	
-	
+	}
 }

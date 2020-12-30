@@ -16,4 +16,10 @@ public interface EventDAO {
 	//public int deleteEvent(int eventId);
 
 	public int updateEvent(int eventId, Event event);
+
+	public void employeeGrade(int eventId, String grade);
+
+	public List<Event> eventsReportsTo(int employeeId);
+
+	public void superGrade(int eventId, int grade);
 }

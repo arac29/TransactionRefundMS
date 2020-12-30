@@ -97,6 +97,7 @@ public class EventDAOPostgres implements EventDAO{
 				String startDate = rs.getString("start_date");
 				String endDate = rs.getString("end_date");
 				String location = rs.getString("location");
+				String employeeGrade=rs.getString("employee_grade");
 				int gradingFormatId = rs.getInt("grading_format_id");
 				int gradeId = rs.getInt("grade_id");
 
@@ -142,10 +143,9 @@ public class EventDAOPostgres implements EventDAO{
 				String description = rs.getString("description");
 				String startDate = rs.getString("start_date");
 				String endDate = rs.getString("end_date");
-				String hoursDedicatedEvent = rs.getString("total_hours_on_event");
 				String location = rs.getString("location");
-	
 				int gradingFormatId = rs.getInt("grading_format_id");
+				String employeeGrade = rs.getString("employee_grade");
 				int gradeId = rs.getInt("grade_id");
 
 				event.setEventId(eventId);
@@ -154,10 +154,9 @@ public class EventDAOPostgres implements EventDAO{
 				event.setDescription(description);
 				event.setStartDate(startDate);
 				event.setEndDate(endDate);
-				
 				event.setLocation(location);
-
 				event.setGradingFormatId(gradingFormatId);
+				event.setEmployeeGrade(employeeGrade);
 				event.setGradeId(gradeId);
 
 				eventList.add(event);
@@ -174,7 +173,7 @@ public class EventDAOPostgres implements EventDAO{
 	public List<Event> readEventById(int employee_id) {
 		List<Event> eventList = new ArrayList();
 
-		String sql = "select r.employee_id, e.event_id, e.event_type_id, e.\"name\", e.description, e.start_date, e.end_date, e.\"location\", e.grading_format_id, e.grade_id "
+		String sql = "select r.employee_id, e.event_id, e.event_type_id, e.\"name\", e.description, e.start_date, e.end_date, e.\"location\", e.grading_format_id, e.grade_id ,e.employee_grade "
 				+ "from reimbursement r "
 				+ "join \"event\" e "
 				+ "on r.event_id = e.event_id "
@@ -201,7 +200,7 @@ public class EventDAOPostgres implements EventDAO{
 				String startDate = rs.getString("start_date");
 				String endDate = rs.getString("end_date");
 				String location = rs.getString("location");
-	
+				String employeeGrade=rs.getString("employee_grade");
 				int gradingFormatId = rs.getInt("grading_format_id");
 				int gradeId = rs.getInt("grade_id");
 
@@ -212,7 +211,7 @@ public class EventDAOPostgres implements EventDAO{
 				event.setStartDate(startDate);
 				event.setEndDate(endDate);
 				event.setLocation(location);
-
+				event.setEmployeeGrade(employeeGrade);
 				event.setGradingFormatId(gradingFormatId);
 				event.setGradeId(gradeId);
 
@@ -230,6 +229,92 @@ public class EventDAOPostgres implements EventDAO{
 	public int updateEvent(int eventId, Event event) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void employeeGrade(int eventId, String grade) {
+		String sql="update event set employee_grade=? where event_id=? ;";
+		try (Connection conn = connUtil.createConnection()) {
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, grade);
+			stmt.setInt(2, eventId);
+			
+
+			stmt.executeUpdate();
+
+			log.info("Reimbursementid dao submit grade   = " );
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	@Override
+	public List<Event> eventsReportsTo(int employeeId) {
+		List<Event> eventList = new ArrayList();
+		String sql = "select e.event_id, e.event_type_id, e.\"name\", e.description, e.start_date, e.end_date, e.\"location\", "
+					+ "e.grading_format_id, e.employee_grade, e.grade_id "
+					+ "from \"event\" e " 
+					+ "join reimbursement r " 
+					+ "on e.event_id = r.event_id " 
+					+ "join employee em "
+					+ "on r.employee_id = em.employee_id " 
+					+ "where em.reports_to = ?;";
+		try (Connection conn = connUtil.createConnection()) {
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, employeeId);
+			ResultSet rs = stmt.executeQuery();
+			log.info("Controller read all events by employee");
+			while (rs.next()) {
+				Event event = new Event();
+				int eventId = rs.getInt("event_id");
+				int eventTypeId = rs.getInt("event_type_id");
+				String name = rs.getString("name");
+				String description = rs.getString("description");
+				String startDate = rs.getString("start_date");
+				String endDate = rs.getString("end_date");
+				String location = rs.getString("location");
+				int gradingFormatId = rs.getInt("grading_format_id");
+				String employeeGrade = rs.getString("employee_grade");
+				int gradeId = rs.getInt("grade_id");
+				event.setEventId(eventId);
+				event.setEventTypeId(eventTypeId);
+				event.setName(name);
+				event.setDescription(description);
+				event.setStartDate(startDate);
+				event.setEndDate(endDate);
+				event.setLocation(location);
+				event.setGradingFormatId(gradingFormatId);
+				event.setEmployeeGrade(employeeGrade);
+				event.setGradeId(gradeId);
+				eventList.add(event);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return eventList;
+	}
+
+	@Override
+	public void superGrade(int eventId, int grade) {
+		String sql="update event set grade_id=? where event_id=? ;";
+		try (Connection conn = connUtil.createConnection()) {
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setInt(1, grade);
+			stmt.setInt(2, eventId);
+
+			stmt.executeUpdate();
+
+			log.info("event dao submit grade final  = " );
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 

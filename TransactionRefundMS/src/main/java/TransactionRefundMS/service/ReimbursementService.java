@@ -11,6 +11,8 @@ import TransactionRefundMS.pojos.ReimbursementStatus;
 
 public interface ReimbursementService {
 	
+	public List<Event> eventsReportsTo(int employeeId);
+
 	public Reimbursement createReimbursement(Reimbursement reimbursement);
 	
 	public Reimbursement readReimbursement(int reimbursementId);
@@ -42,4 +44,12 @@ public interface ReimbursementService {
 	public void updateNote(int reimbursementId, String note, int employeeId);
 
 	public List<Reimbursement> readAllReimbursements();
+
+	public void employeeGrade(int eventId, String grade);
+
+	public List<Event> readAllEvents();
+
+	public void superGrade(int eventId, int grade);
+
+	public void updateStatus(int reimbursementId, int status);
 }

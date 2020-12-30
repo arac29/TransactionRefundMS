@@ -13,8 +13,10 @@ window.onload = function(){
                 let tableRow = document.createElement("tr");
                 
                 let employeeId = document.createElement("td");
+                let eventNumber = document.createElement("td");
                 let submit_date = document.createElement("td");
                 let amount_requested = document.createElement("td");
+                let adjusted_amount = document.createElement("td");
                 let notes = document.createElement("td");
                 let add_notes=document.createElement("td");
                 let dirsup=document.createElement("td");
@@ -22,6 +24,8 @@ window.onload = function(){
                 let benco=document.createElement("td");
                 let reimbursementStatusId= document.createElement("td");
                 let uploads= document.createElement("td");
+                let estimated = document.createElement("td");
+                let change_status= document.createElement("td");
 
                 //employeeId.innerHTML=element.employeeId;
                 let id_link= document.createElement("a");
@@ -31,32 +35,52 @@ window.onload = function(){
                 id_link.title=element.employeeId;
 
                 
-
+                adjusted_amount.innerHTML="$ "+ element.adjustedAmount;
+                eventNumber.innerHTML=element.eventId;
                 submit_date.innerHTML = element.dateSubmition;
                 amount_requested.innerHTML ="$ "+ element.amountRequested;
                 notes.innerHTML = element.notes;
                 dirsup.innerHTML=element.directorSupervisorApprovalDate;
                 dehead.innerHTML=element.departmentHeadApprovalDate;
                 benco.innerHTML=element.benCoApprovalDate;
-                /*hard code status*/
+
                 let status=check_status(element.reimbursementStatusId);
                 reimbursementStatusId.innerHTML=status;
                 uploads.innerHTML=element.updateFileId;
 
                 employeeId.appendChild(id_link);
                 tableRow.appendChild(employeeId);
+                tableRow.appendChild(eventNumber);
                 tableRow.appendChild(submit_date);
                 tableRow.appendChild(amount_requested);
                 tableRow.appendChild(notes);
                 tableRow.appendChild(dirsup);
                 tableRow.appendChild(dehead);
                 tableRow.appendChild(benco);
-                tableRow.appendChild(reimbursementStatusId);
                 tableRow.appendChild(uploads);
+                tableRow.appendChild(adjusted_amount);
+                tableRow.appendChild(reimbursementStatusId);
                 tableRow.appendChild(add_notes);
+                tableRow.appendChild(change_status);
                 table.appendChild(tableRow);
 
 
+                let changeForm = document.createElement("form");
+                changeForm.action = "change-status.html";
+                let input1 = document.createElement("input");
+                let input2 = document.createElement("input");
+
+                input1.type = "hidden";
+                input1.name = "reimbursementId";
+                input1.value = element.reimbursementId;
+
+                input2.type = "submit";
+                input2.className="btn btn-info";
+                input2.value = "Chage Status";
+
+                changeForm.appendChild(input1);
+                changeForm.appendChild(input2);
+                change_status.appendChild(changeForm);
                 /********************* */
                 let noteForm = document.createElement("form");
                 noteForm.action = "request-information.html";
@@ -73,22 +97,84 @@ window.onload = function(){
 
                 noteForm.appendChild(inputx);
                 noteForm.appendChild(inputy);
-
-                // gradeCol.appendChild(addGrade);
                 add_notes.appendChild(noteForm);
-           });
+            });
         }
     }
     xhr.open("GET", url, true);
     xhr.send();
 
-    /**    get MY requests */
+    /** ************************Read employees Events ********** */
+    let xhr4 = new XMLHttpRequest();
+    const url4 = "http://localhost:9094/eventsReportsTo";
+    xhr4.onreadystatechange = function () {
+        console.log(xhr4.readyState);
+        if (this.readyState == 4 && this.status == 200){
+            //console.log(xhr1.responseText);
+            let eventList = JSON.parse(xhr4.responseText);
+            console.log(eventList);
+            eventList.forEach(element => {
+                let table=document.getElementById("other-events");
+                let tableRow = document.createElement("tr");
+                let eventNumber=document.createElement("td");
+                let nameCol = document.createElement("td");
+                let StartDate = document.createElement("td");
+                let location= document.createElement("td");
+                let gradeAss= document.createElement("td");
+                let description=document.createElement("td");
+                let gradeSub = document.createElement("td");
+
+                //let g_sub=check_grade(element.employeeGrade);
+                let g_ass=check_grade(element.gradeId);
+                
+                nameCol.innerHTML = element.name;
+                StartDate.innerHTML = element.startDate + " -> "+ element.endDate;
+                location.innerHTML = element.location;
+                gradeAss.innerHTML =g_ass;
+                gradeSub.innerHTML =element.employeeGrade;
+                eventNumber.innerHTML=element.eventId;
+                description.innerHTML=element.description;
+
+                tableRow.appendChild(eventNumber);
+                tableRow.appendChild(nameCol);
+                tableRow.appendChild(location);
+                tableRow.appendChild(StartDate);
+                tableRow.appendChild(description);
+                tableRow.appendChild(gradeSub);
+                tableRow.appendChild(gradeAss);
+               // tableRow.appendChild(updateCol);
+                
+                let gradeCol=document.createElement("td");
+                let updateForm = document.createElement("form");
+                updateForm.action = "companyGrade.html";
+                let inputx = document.createElement("input");
+                let inputy = document.createElement("input");
+
+                inputx.type = "hidden";
+                inputx.name = "eventId";
+                inputx.value = element.eventId;
+
+                inputy.type = "submit";
+                inputy.className="btn btn-info";
+                inputy.value = "Add grade";
+
+                updateForm.appendChild(inputx);
+                updateForm.appendChild(inputy);
+                gradeCol.appendChild(updateForm);
+                tableRow.appendChild(gradeCol);
+            
+                table.appendChild(tableRow);
+            });
+        }
+    }
+    xhr4.open("GET", url4, true);
+    xhr4.send();
+    /**   ******************** get MY requests ************************/
     let xhr1 = new XMLHttpRequest();
     const url1 = "http://localhost:9094/readReimbursements";
     xhr1.onreadystatechange = function () {
         console.log(xhr1.readyState);
         if (this.readyState == 4 && this.status == 200){
-            //console.log(xhr.responseText);
             let reimbursementList = JSON.parse(xhr1.responseText);
             console.log(reimbursementList);
             reimbursementList.forEach(element => {
@@ -97,44 +183,29 @@ window.onload = function(){
                 let submit_date = document.createElement("td");
                 let amount_requested = document.createElement("td");
                 let notes = document.createElement("td");
+                let estimated = document.createElement("td");
                 let reimbursementStatusId= document.createElement("td");
                 let uploads= document.createElement("td");
-
-                let removeCol = document.createElement("td");
                 let updateCol = document.createElement("td");
 
                 submit_date.innerHTML = element.dateSubmition;
                 amount_requested.innerHTML ="$ "+ element.amountRequested;
                 notes.innerHTML = element.notes;
-                /*hard code status*/
                 let status=check_status(element.reimbursementStatusId);
                 reimbursementStatusId.innerHTML=status;
+                estimated.innerHTML="$ "+element.adjustedAmount;
                 uploads.innerHTML=element.updateFileId;
 
                 tableRow.appendChild(submit_date);
-                tableRow.appendChild(amount_requested);
                 tableRow.appendChild(notes);
+                tableRow.appendChild(amount_requested);
+                tableRow.appendChild(estimated);
                 tableRow.appendChild(reimbursementStatusId);
                 tableRow.appendChild(uploads);
-                tableRow.appendChild(removeCol);
                 tableRow.appendChild(updateCol);
                 table.appendChild(tableRow);
 
 
-                let removeForm = document.createElement("form");
-                removeForm.action = "http://localhost:9094/cancelReimbursement" ;
-                removeForm.method = "DELETE";
-                input1 = document.createElement("input");
-                input2 = document.createElement("input");
-                input1.type = "hidden";
-                input1.name = "reimbursementId";
-                input1.value = element.reimbursementId;
-
-                input2.type = "submit";
-                input2.className="btn btn-dark";
-                input2.value = "Delete";
-                removeForm.appendChild(input1);
-                removeForm.appendChild(input2);
 
                 /********************* */
                 let updateForm = document.createElement("form");
@@ -148,15 +219,14 @@ window.onload = function(){
 
                 inputy.type = "submit";
                 inputy.className="btn btn-info";
-                inputy.value = "Update";
+                inputy.value = "Upload";
 
                 updateForm.appendChild(inputx);
                 updateForm.appendChild(inputy);
 
                 // gradeCol.appendChild(addGrade);
-                removeCol.appendChild(removeForm);
                 updateCol.appendChild(updateForm);
-           });
+            });
         }
     }
     xhr1.open("GET", url1, true);
@@ -176,68 +246,55 @@ window.onload = function(){
                 let nameCol = document.createElement("td");
                 let StartDate = document.createElement("td");
                 let location= document.createElement("td");
-                let gradeId= document.createElement("td");
+                let gradeAss= document.createElement("td");
                 let description=document.createElement("td");
-                let updateCol = document.createElement("td");
+                let gradeSub = document.createElement("td");
 
-                let grade=check_grade(element.gradeId);
+                //let g_sub=check_grade(element.employeeGrade);
+                let g_ass=check_grade(element.gradeId);
                 
                 nameCol.innerHTML = element.name;
-                StartDate.innerHTML = element.startDate + " - "+ element.endDate;
+                StartDate.innerHTML = element.startDate + " -> "+ element.endDate;
                 location.innerHTML = element.location;
-                gradeId.innerHTML =grade;
+                gradeAss.innerHTML =g_ass;
+                gradeSub.innerHTML =element.employeeGrade;
+
                 description.innerHTML=element.description;
 
                 tableRow.appendChild(nameCol);
-                tableRow.appendChild(StartDate);
                 tableRow.appendChild(location);
-                tableRow.appendChild(gradeId);
-                tableRow.appendChild(updateCol);
+                tableRow.appendChild(StartDate);
                 tableRow.appendChild(description);
+                tableRow.appendChild(gradeSub);
+                tableRow.appendChild(gradeAss);
+               // tableRow.appendChild(updateCol);
+                if (element.employeeGrade=="" || element.employeeGrade==undefined){
+
+                    let gradeCol=document.createElement("td");
+                    let updateForm = document.createElement("form");
+                    updateForm.action = "submitGrade.html";
+                    let inputx = document.createElement("input");
+                    let inputy = document.createElement("input");
+
+                    inputx.type = "hidden";
+                    inputx.name = "eventId";
+                    inputx.value = element.eventId;
+
+                    inputy.type = "submit";
+                    inputy.className="btn btn-info";
+                    inputy.value = "Add grade";
+
+                    updateForm.appendChild(inputx);
+                    updateForm.appendChild(inputy);
+                    gradeCol.appendChild(updateForm);
+                    tableRow.appendChild(gradeCol);
+                }
                 table.appendChild(tableRow);
-
-                let updateForm = document.createElement("form");
-                updateForm.action = "updateEvent.html";
-                let inputx = document.createElement("input");
-                let inputy = document.createElement("input");
-
-                inputx.type = "hidden";
-                inputx.name = "eventId";
-                inputx.value = element.eventId;
-
-                inputy.type = "submit";
-                inputy.className="btn btn-info";
-                inputy.value = "Update";
-
-                updateForm.appendChild(inputx);
-                updateForm.appendChild(inputy);
-                updateCol.appendChild(updateForm);
-           });
+            });
         }
     }
     xhr2.open("GET", url2, true);
     xhr2.send();
-    
-
-    document.getElementById("my").addEventListener("click",function(){
-        let x=document.getElementById("other-requests");
-        if (x.style.visibility==="hidden") {
-            x.style.visibility="visible";
-        }
-        else{
-            x.style.visibility="hidden";
-        }
-    });
-    document.getElementById("review").addEventListener("click",function(){
-        let x=document.getElementById("my-requests");
-        if (x.style.visibility==="hidden") {
-            x.style.visibility="visible";
-        }
-        else{
-            x.style.visibility="hidden";
-        }
-    });
-
 
     function check_status(status){
         switch (status) {

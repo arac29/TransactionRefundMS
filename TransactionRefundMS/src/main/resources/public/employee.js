@@ -5,7 +5,6 @@ window.onload=function(){
     xhr.onreadystatechange = function () {
         console.log(xhr.readyState);
         if (this.readyState == 4 && this.status == 200){
-            //console.log(xhr.responseText);
             let reimbursementList = JSON.parse(xhr.responseText);
             console.log(reimbursementList);
             reimbursementList.forEach(element => {
@@ -14,45 +13,27 @@ window.onload=function(){
                 let submit_date = document.createElement("td");
                 let amount_requested = document.createElement("td");
                 let notes = document.createElement("td");
+                let estimated = document.createElement("td");
                 let reimbursementStatusId= document.createElement("td");
                 let uploads= document.createElement("td");
-
-                let removeCol = document.createElement("td");
                 let updateCol = document.createElement("td");
 
                 submit_date.innerHTML = element.dateSubmition;
                 amount_requested.innerHTML ="$ "+ element.amountRequested;
                 notes.innerHTML = element.notes;
-                /*hard code status*/
                 let status=check_status(element.reimbursementStatusId);
                 reimbursementStatusId.innerHTML=status;
+                estimated.innerHTML="$ "+element.adjustedAmount;
                 uploads.innerHTML=element.updateFileId;
 
                 tableRow.appendChild(submit_date);
-                tableRow.appendChild(amount_requested);
                 tableRow.appendChild(notes);
+                tableRow.appendChild(amount_requested);
+                tableRow.appendChild(estimated);
                 tableRow.appendChild(reimbursementStatusId);
                 tableRow.appendChild(uploads);
-                tableRow.appendChild(removeCol);
                 tableRow.appendChild(updateCol);
                 table.appendChild(tableRow);
-
-
-                let removeForm = document.createElement("form");
-                removeForm.action = "http://localhost:9094/cancelReimbursement" ;
-                removeForm.method = "DELETE";
-                input1 = document.createElement("input");
-                input2 = document.createElement("input");
-                input1.type = "hidden";
-                input1.name = "reimbursementId";
-                input1.value = element.reimbursementId;
-
-                input2.type = "submit";
-                input2.className="btn btn-dark";
-                input2.value = "Delete";
-                removeForm.appendChild(input1);
-                removeForm.appendChild(input2);
-
                 /********************* */
                 let updateForm = document.createElement("form");
                 updateForm.action = "updateReimbursement.html";
@@ -65,15 +46,14 @@ window.onload=function(){
 
                 inputy.type = "submit";
                 inputy.className="btn btn-info";
-                inputy.value = "Update";
+                inputy.value = "Upload";
 
                 updateForm.appendChild(inputx);
                 updateForm.appendChild(inputy);
 
                 // gradeCol.appendChild(addGrade);
-                removeCol.appendChild(removeForm);
                 updateCol.appendChild(updateForm);
-           });
+            });
         }
     }
     xhr.open("GET", url, true);
@@ -93,42 +73,66 @@ window.onload=function(){
                 let nameCol = document.createElement("td");
                 let StartDate = document.createElement("td");
                 let location= document.createElement("td");
-                let gradeId= document.createElement("td");
+                let gradeAss= document.createElement("td");
                 let description=document.createElement("td");
-                let updateCol = document.createElement("td");
+                let gradeSub = document.createElement("td");
 
-                let grade=check_grade(element.gradeId);
+                //let g_sub=check_grade(element.employeeGrade);
+                let g_ass=check_grade(element.gradeId);
                 
                 nameCol.innerHTML = element.name;
-                StartDate.innerHTML = element.startDate + " - "+ element.endDate;
+                StartDate.innerHTML = element.startDate + " -> "+ element.endDate;
                 location.innerHTML = element.location;
-                gradeId.innerHTML =grade;
+                gradeAss.innerHTML =g_ass;
+                gradeSub.innerHTML =element.employeeGrade;
+
                 description.innerHTML=element.description;
 
                 tableRow.appendChild(nameCol);
-                tableRow.appendChild(StartDate);
                 tableRow.appendChild(location);
-                tableRow.appendChild(gradeId);
-                tableRow.appendChild(updateCol);
+                tableRow.appendChild(StartDate);
                 tableRow.appendChild(description);
+                tableRow.appendChild(gradeSub);
+                tableRow.appendChild(gradeAss);
+               // tableRow.appendChild(updateCol);
+                if (element.employeeGrade=="" || element.employeeGrade==undefined){
+                    let gradeCol=document.createElement("td");
+                    let updateForm = document.createElement("form");
+                    updateForm.action = "submitGrade.html";
+                    let inputx = document.createElement("input");
+                    let inputy = document.createElement("input");
+
+                    inputx.type = "hidden";
+                    inputx.name = "eventId";
+                    inputx.value = element.eventId;
+
+                    inputy.type = "submit";
+                    inputy.className="btn btn-info";
+                    inputy.value = "Add grade";
+
+                    updateForm.appendChild(inputx);
+                    updateForm.appendChild(inputy);
+                    gradeCol.appendChild(updateForm);
+                    tableRow.appendChild(gradeCol);
+                }
                 table.appendChild(tableRow);
 
-                let updateForm = document.createElement("form");
-                updateForm.action = "updateEvent.html";
-                let inputx = document.createElement("input");
-                let inputy = document.createElement("input");
+                // let updateForm = document.createElement("form");
+                // updateForm.action = "updateEvent.html";
+                // let inputx = document.createElement("input");
+                // let inputy = document.createElement("input");
 
-                inputx.type = "hidden";
-                inputx.name = "eventId";
-                inputx.value = element.eventId;
+                // inputx.type = "hidden";
+                // inputx.name = "eventId";
+                // inputx.value = element.eventId;
 
-                inputy.type = "submit";
-                inputy.className="btn btn-info";
-                inputy.value = "Update";
+                // inputy.type = "submit";
+                // inputy.className="btn btn-info";
+                // inputy.value = "Update";
 
-                updateForm.appendChild(inputx);
-                updateForm.appendChild(inputy);
-                updateCol.appendChild(updateForm);
+                // updateForm.appendChild(inputx);
+                // updateForm.appendChild(inputy);
+                // updateCol.appendChild(updateForm);
            });
         }
     }
@@ -177,7 +181,7 @@ function check_grade(grade){
             return "C";
         case 4:
             return "D";
-            case 5:
+        case 5:
             return "F";
     }
 }

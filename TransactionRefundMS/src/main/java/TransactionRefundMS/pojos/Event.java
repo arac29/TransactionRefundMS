@@ -13,7 +13,8 @@ public class Event {
 	private int gradingFormatId;
 	private String employeeGrade;
 	private int gradeId;
-	
+
+
 public Event( int eventTypeId, String name, String description, String startDate, String endDate,
 			String location, int gradingFormatId) {
 		super();

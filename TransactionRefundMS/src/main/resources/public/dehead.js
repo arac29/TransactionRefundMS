@@ -1,17 +1,15 @@
 window.onload = function(){
-/**GET OTHER EMPL REQUESTS */
+    /** ***************  other employees REQUESTS ****************** */
     let xhr = new XMLHttpRequest();
-    const url = "http://localhost:9094/reimbursementsReportsTo";
+    const url = "http://localhost:9094/readAllReimbursements";
     xhr.onreadystatechange = function () {
-        console.log(xhr.readyState);
         if (this.readyState == 4 && this.status == 200){
-            //console.log(xhr.responseText);
             let reimbursementList = JSON.parse(xhr.responseText);
             console.log(reimbursementList);
             reimbursementList.forEach(element => {
                 let table=document.getElementById("other-reimbursement");
                 let tableRow = document.createElement("tr");
-                
+                /** *************** table 1 **************/
                 let employeeId = document.createElement("td");
                 let eventNumber = document.createElement("td");
                 let submit_date = document.createElement("td");
@@ -25,16 +23,13 @@ window.onload = function(){
                 let reimbursementStatusId= document.createElement("td");
                 let uploads= document.createElement("td");
                 let estimated = document.createElement("td");
-                let change_status= document.createElement("td");
-
-                //employeeId.innerHTML=element.employeeId;
+                /*********LINK *******/
                 let id_link= document.createElement("a");
                 let gradelink = document.createTextNode(element.employeeId); 
                 id_link.appendChild(gradelink);
                 id_link.href="employee-info.html/"+"?employeeId="+element.employeeId;
                 id_link.title=element.employeeId;
-
-                
+                /********* values *******/
                 adjusted_amount.innerHTML="$ "+ element.adjustedAmount;
                 eventNumber.innerHTML=element.eventId;
                 submit_date.innerHTML = element.dateSubmition;
@@ -43,11 +38,10 @@ window.onload = function(){
                 dirsup.innerHTML=element.directorSupervisorApprovalDate;
                 dehead.innerHTML=element.departmentHeadApprovalDate;
                 benco.innerHTML=element.benCoApprovalDate;
-
                 let status=check_status(element.reimbursementStatusId);
                 reimbursementStatusId.innerHTML=status;
                 uploads.innerHTML=element.updateFileId;
-
+                /********* dom nodes *******/
                 employeeId.appendChild(id_link);
                 tableRow.appendChild(employeeId);
                 tableRow.appendChild(eventNumber);
@@ -61,36 +55,16 @@ window.onload = function(){
                 tableRow.appendChild(adjusted_amount);
                 tableRow.appendChild(reimbursementStatusId);
                 tableRow.appendChild(add_notes);
-                tableRow.appendChild(change_status);
                 table.appendChild(tableRow);
-
-
-                let changeForm = document.createElement("form");
-                changeForm.action = "change-status.html";
-                let input1 = document.createElement("input");
-                let input2 = document.createElement("input");
-
-                input1.type = "hidden";
-                input1.name = "reimbursementId";
-                input1.value = element.reimbursementId;
-
-                input2.type = "submit";
-                input2.className="btn btn-info";
-                input2.value = "Chage Status";
-
-                changeForm.appendChild(input1);
-                changeForm.appendChild(input2);
-                change_status.appendChild(changeForm);
-                /********************* */
+                /************* button ******** */
                 let noteForm = document.createElement("form");
                 noteForm.action = "request-information.html";
                 let inputx = document.createElement("input");
                 let inputy = document.createElement("input");
-
+                /******* id + button create  *****/
                 inputx.type = "hidden";
                 inputx.name = "reimbursementId";
                 inputx.value = element.reimbursementId;
-
                 inputy.type = "submit";
                 inputy.className="btn btn-success";
                 inputy.value = "Add note";
@@ -104,18 +78,17 @@ window.onload = function(){
     xhr.open("GET", url, true);
     xhr.send();
 
-    /** ************************Read employees Events ********** */
+    /** ***************** other employees Events ******************* */
     let xhr4 = new XMLHttpRequest();
-    const url4 = "http://localhost:9094/eventsReportsTo";
+    const url4 = "http://localhost:9094/readAllEvents";
     xhr4.onreadystatechange = function () {
         console.log(xhr4.readyState);
         if (this.readyState == 4 && this.status == 200){
-            //console.log(xhr1.responseText);
             let eventList = JSON.parse(xhr4.responseText);
-            console.log(eventList);
             eventList.forEach(element => {
                 let table=document.getElementById("other-events");
                 let tableRow = document.createElement("tr");
+                /** *************** table 2 **************/
                 let eventNumber=document.createElement("td");
                 let nameCol = document.createElement("td");
                 let StartDate = document.createElement("td");
@@ -123,8 +96,6 @@ window.onload = function(){
                 let gradeAss= document.createElement("td");
                 let description=document.createElement("td");
                 let gradeSub = document.createElement("td");
-
-                //let g_sub=check_grade(element.employeeGrade);
                 let g_ass=check_grade(element.gradeId);
                 
                 nameCol.innerHTML = element.name;
@@ -134,7 +105,7 @@ window.onload = function(){
                 gradeSub.innerHTML =element.employeeGrade;
                 eventNumber.innerHTML=element.eventId;
                 description.innerHTML=element.description;
-
+                
                 tableRow.appendChild(eventNumber);
                 tableRow.appendChild(nameCol);
                 tableRow.appendChild(location);
@@ -142,34 +113,13 @@ window.onload = function(){
                 tableRow.appendChild(description);
                 tableRow.appendChild(gradeSub);
                 tableRow.appendChild(gradeAss);
-               // tableRow.appendChild(updateCol);
-                
-                let gradeCol=document.createElement("td");
-                let updateForm = document.createElement("form");
-                updateForm.action = "companyGrade.html";
-                let inputx = document.createElement("input");
-                let inputy = document.createElement("input");
-
-                inputx.type = "hidden";
-                inputx.name = "eventId";
-                inputx.value = element.eventId;
-
-                inputy.type = "submit";
-                inputy.className="btn btn-info";
-                inputy.value = "Add grade";
-
-                updateForm.appendChild(inputx);
-                updateForm.appendChild(inputy);
-                gradeCol.appendChild(updateForm);
-                tableRow.appendChild(gradeCol);
-            
                 table.appendChild(tableRow);
             });
         }
     }
     xhr4.open("GET", url4, true);
     xhr4.send();
-    /**   ******************** get MY requests ************************/
+    /**   ******************** MY requests ************************/
     let xhr1 = new XMLHttpRequest();
     const url1 = "http://localhost:9094/readReimbursements";
     xhr1.onreadystatechange = function () {
@@ -187,7 +137,7 @@ window.onload = function(){
                 let reimbursementStatusId= document.createElement("td");
                 let uploads= document.createElement("td");
                 let updateCol = document.createElement("td");
-
+                
                 submit_date.innerHTML = element.dateSubmition;
                 amount_requested.innerHTML ="$ "+ element.amountRequested;
                 notes.innerHTML = element.notes;
@@ -195,7 +145,7 @@ window.onload = function(){
                 reimbursementStatusId.innerHTML=status;
                 estimated.innerHTML="$ "+element.adjustedAmount;
                 uploads.innerHTML=element.updateFileId;
-
+                
                 tableRow.appendChild(submit_date);
                 tableRow.appendChild(notes);
                 tableRow.appendChild(amount_requested);
@@ -204,34 +154,27 @@ window.onload = function(){
                 tableRow.appendChild(uploads);
                 tableRow.appendChild(updateCol);
                 table.appendChild(tableRow);
-
-
-
                 /********************* */
                 let updateForm = document.createElement("form");
                 updateForm.action = "updateReimbursement.html";
                 let inputx = document.createElement("input");
                 let inputy = document.createElement("input");
-
+                
                 inputx.type = "hidden";
                 inputx.name = "eventId";
                 inputx.value = element.reimbursementId;
-
                 inputy.type = "submit";
                 inputy.className="btn btn-info";
                 inputy.value = "Upload";
-
                 updateForm.appendChild(inputx);
                 updateForm.appendChild(inputy);
-
-                // gradeCol.appendChild(addGrade);
                 updateCol.appendChild(updateForm);
             });
         }
     }
     xhr1.open("GET", url1, true);
     xhr1.send();
-
+    /** ******************** MY events ************************/
     let xhr2 = new XMLHttpRequest();
     const url2 = "http://localhost:9094/readEvents";
     xhr2.onreadystatechange = function () {
@@ -267,35 +210,34 @@ window.onload = function(){
                 tableRow.appendChild(description);
                 tableRow.appendChild(gradeSub);
                 tableRow.appendChild(gradeAss);
-               // tableRow.appendChild(updateCol);
-                if (element.employeeGrade=="" || element.employeeGrade==undefined){
+                // tableRow.appendChild(updateCol);
+                
+                let gradeCol=document.createElement("td");
+                let updateForm = document.createElement("form");
+                updateForm.action = "submitGrade.html";
+                let inputx = document.createElement("input");
+                let inputy = document.createElement("input");
 
-                    let gradeCol=document.createElement("td");
-                    let updateForm = document.createElement("form");
-                    updateForm.action = "submitGrade.html";
-                    let inputx = document.createElement("input");
-                    let inputy = document.createElement("input");
+                inputx.type = "hidden";
+                inputx.name = "eventId";
+                inputx.value = element.eventId;
 
-                    inputx.type = "hidden";
-                    inputx.name = "eventId";
-                    inputx.value = element.eventId;
+                inputy.type = "submit";
+                inputy.className="btn btn-info";
+                inputy.value = "Add grade";
 
-                    inputy.type = "submit";
-                    inputy.className="btn btn-info";
-                    inputy.value = "Add grade";
-
-                    updateForm.appendChild(inputx);
-                    updateForm.appendChild(inputy);
-                    gradeCol.appendChild(updateForm);
-                    tableRow.appendChild(gradeCol);
-                }
+                updateForm.appendChild(inputx);
+                updateForm.appendChild(inputy);
+                gradeCol.appendChild(updateForm);
+                tableRow.appendChild(gradeCol);
+                
                 table.appendChild(tableRow);
             });
         }
     }
     xhr2.open("GET", url2, true);
     xhr2.send();
-
+    /** ******************** helpers? ************************/
     function check_status(status){
         switch (status) {
         case 1:
@@ -330,9 +272,8 @@ window.onload = function(){
             return "F";
         }
     }
-    
-
 }
+/** ******************** REDIRECT TO FORM ************************/
 function redirect_form(){
-    window.location.replace("http://localhost:9094/newRequest");
+window.location.replace("http://localhost:9094/newRequest");
 }

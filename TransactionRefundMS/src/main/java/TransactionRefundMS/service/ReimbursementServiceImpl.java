@@ -110,4 +110,37 @@ public class ReimbursementServiceImpl implements ReimbursementService{
 		
 	}
 
+	@Override
+	public void employeeGrade(int eventId, String grade) {
+		log.info(" Serviive submit grade  by employee");
+		eventDao.employeeGrade(eventId,grade);		
+	}
+
+	@Override
+	public List<Event> readAllEvents() {
+		log.info(" Service -Read Events ");
+		return eventDao.readAllEvents();
+	}
+
+	@Override
+	public List<Event> eventsReportsTo(int employeeId) {
+		log.info(" Service -Read Events by reports to");
+		return eventDao.eventsReportsTo(employeeId);
+	
+	}
+
+	@Override
+	public void superGrade(int eventId, int grade) {
+		log.info(" Serviive submit grade final");
+		eventDao.superGrade(eventId,grade);		
+		
+	}
+
+	@Override
+	public void updateStatus(int reimbursementId, int status) {
+		log.info("service - update reimbursement status");
+		reimbursementDao.updateStatus(reimbursementId, status);
+		
+	}
+
 }
