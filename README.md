@@ -1,75 +1,41 @@
-# alma_alva_p1
+# The Transaction Refund Management System (TRMS)
+## Project Description
+The Transaction Refund Management System, TRMS, allows users to submit reimbursements for courses and training. The submitted reimbursement must be approved by that employee's supervisor, department head, and benefits coordinator. The benefits coordinator then reviews the grade received before finalizing the reimbursement.
 
-BPM solution
-Improve timeliness and accuracy of approvals.
-Employee - 	up to 	1000/year
-Resets after a year.
+## Technologies Used
+* Java
+* HTML
+* CSS
+* JDBC
+* SQL
+* JavaScript
+* AJAX
+* Azure
+* Javalin
 
-University courses 			--->	 80 %
-Seminars 				---> 	 60 %
-Certification Preparation Classes	--->	 75 %
-Certification 				--->     100 %
-Technical Training			--->       90 %
-Other 					--->      30 %
+## Features
+List of features ready and TODOs for future development
+* Allows users to submit reimbursements for different events (courses, certification courses, certification examns, many more)
+* The submitted reimbursement must be approved by that employee's director supervisor, The department Head, and a Benefits Coordinator in that order.
+* The user can then add a grade to the reimbursement for final approval.
+* Director supervisor can check reimbursement and leave a status.
+* Department Head and Benifits Coordinator can place grades, also leave notes on the status of the reimbursement.
+* Benefit Coordinator que change the rewarded amount on the reimbursement of the employee that submited.
 
-Benco approves the reimbursement, then it is pending until a passing grade or presentation over the event is provided. 
+To-do list:
+* Implement JWTs for better session tracking and authurization.
+* Complete 100% coverage Unit Tests. 
+* Refine User Experience.
 
-The amount available :    AvailableReim =  TotalReim  -  PendingReim  -  AwaredReim.
+## Getting Started
+- git clone https://github.com/arac29/alma_alva_p1.git
+- Within the connectionUtil.java, set your URL, Username, and Password in order to connect to your database
+- Run the included SQL files under the Scripts folder in your database to setup tables and dummy data(replace dummy data as needed)
+    1. drop-create-add-insert_references.sql
+    2. login-employees.sql
+    3. dummy-data.sql
+- Open in an ID and navigate to TransactionRefundMS/src/main/java/TransactionRefundMS/ServerDriver.java and change the port if needed. The default is 9094.
+- Run the serverDriver.java and navigate to http://localhost:'port'/ to test connectivity.
 
->>> If the projected reimbursement exceeds the AvailableReimbursement, it is adjusted to the amount available. 
-
-Books and materials not included.
-
-COMPLETE THE FORM
-
- Employees must complete at least 1 week prior to the start of event. 2 weeks prior URGENT
-	Date
-	Time
-	Location	
-	Description
-	Cost
-Grading Format
-Type of Event
-Optional: attachments. 
-
-Grading formats pulled from a reference table. Some require presentation.
-Passing grade. 
-pdf, png, jpeg, txt, or doc file type, attachments of approvals
-already provided of .msg (Outlook Email File) file type and type of approval, work time that will be missed.
-
-
-Grading Format
-Pulled from a reference table. 
-Require presentation to manager after event completion.
-Employee enters the 
-
-
-Approvals:
-	Direct Supervisor: 
-		MUST.  approve or deny (reason )
-		Request additional info from employee
-		If direct supervisor==dept hear next is skipped.
-		If direct supervisor 
-	Dept Head:
-		MUST. 
-		Request additional info. From ^ or employee
-		If timeout, auto approve.
-	BenCo:
-		MUST. 
-		NOT skippable.  
-		Request additional info from ^ ^ or employee.
-		Can CHANGE the amount. (notify user and option to cancel)
-		If timeout, send email to bencos direct supervisor. 
-		Allowed to award larger amount than available. (provide reason) (mark as exceed)
-
-Grade/ presentation
-		
-After event completion, user attach grade OR presentation.  
-BenCo confirm passing. Grade
-After presentation,  direct manager confirms.
-Award Reimbursement. 
-
-
-Available for interested parties (requestor and approvers). 
-
-
+## Usage
+- Navigate to http://localhost:'port'/ to be redirected to the login page. Use the provided dummy data to log in though the different user levels. 
